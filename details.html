@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تفاصيل الورشة</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Cairo',sans-serif;
+  background:#0f172a;
+  color:#fff;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+.back{
+  color:#38bdf8;
+  text-decoration:none;
+  display:inline-block;
+  margin-bottom:15px;
+}
+h1{margin:10px 0}
+.desc{color:#cbd5f5;line-height:1.8}
+
+.slider{
+  overflow:hidden;
+  border-radius:20px;
+  margin:20px 0;
+}
+.slides{
+  display:flex;
+  transition:.4s ease;
+}
+.slides img{
+  width:100%;
+  flex-shrink:0;
+  max-height:420px;
+  object-fit:cover;
+}
+.dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#64748b;
+}
+.dot.active{background:#38bdf8}
+
+.actions{
+  display:flex;
+  gap:15px;
+  margin-top:20px;
+}
+.actions a{
+  flex:1;
+  text-align:center;
+  padding:14px;
+  border-radius:14px;
+  text-decoration:none;
+  font-weight:700;
+}
+.whatsapp{background:#22c55e;color:#fff}
+.map{background:#2563eb;color:#fff}
+.views{
+  margin-top:15px;
+  color:#94a3b8;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <a class="back" href="index.html">← رجوع</a>
+
+  <h1 id="name"></h1>
+  <div class="desc" id="spec"></div>
+
+  <div class="slider" id="slider">
+    <div class="slides" id="slides"></div>
+  </div>
+  <div class="dots" id="dots"></div>
+
+  <div class="actions">
+    <a id="whatsapp" class="whatsapp" target="_blank">💬 واتساب</a>
+    <a id="map" class="map" target="_blank">📍 الموقع</a>
+  </div>
+
+  <div class="views" id="views"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, updateDoc, increment
+} from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBdhesRwD2eiDvqqcMGhC59U4whICwTO3E",
+  authDomain: "sanaeya-samtah.firebaseapp.com",
+  projectId: "sanaeya-samtah",
+  storageBucket: "sanaeya-samtah.firebasestorage.app",
+  messagingSenderId: "1092994215610",
+  appId: "1:1092994215610:web:e68b5a3eccb24235d39c83"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const id = new URLSearchParams(location.search).get("id");
+if(!id) location.href="index.html";
+
+const ref = doc(db,"workshops",id);
+const snap = await getDoc(ref);
+if(!snap.exists()) location.href="index.html";
+
+const w = snap.data();
+
+/* زيادة المشاهدات */
+await updateDoc(ref,{ views: increment(1) });
+
+document.getElementById("name").innerText = w.name;
+document.getElementById("spec").innerText = w.spec;
+document.getElementById("whatsapp").href = "https://wa.me/966"+w.phone;
+document.getElementById("map").href = w.map;
+document.getElementById("views").innerText = "👁️ عدد المشاهدات: " + (w.views+1);
+
+/* سلايدر */
+const slides = document.getElementById("slides");
+const dots = document.getElementById("dots");
+
+(w.images||[]).forEach((img,i)=>{
+  slides.innerHTML += `<img src="${img}">`;
+  dots.innerHTML += `<div class="dot ${i==0?'active':''}"></div>`;
+});
+
+let index=0,startX=0;
+
+const go=i=>{
+  index=i;
+  slides.style.transform=`translateX(${index*100}%)`;
+  document.querySelectorAll(".dot").forEach((d,n)=>d.classList.toggle("active",n===i));
+};
+
+document.querySelectorAll(".dot").forEach((d,i)=>d.onclick=()=>go(i));
+
+slides.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+slides.addEventListener("touchend",e=>{
+  const diff=startX-e.changedTouches[0].clientX;
+  if(diff>50 && index<slides.children.length-1) go(index+1);
+  if(diff<-50 && index>0) go(index-1);
+});
+</script>
+</body>
+</html>
+

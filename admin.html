@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>لوحة التحكم</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Segoe UI", Tahoma;
+  background:#eef2f5;
+  color:#222;
+}
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+h1{
+  text-align:center;
+  margin-bottom:20px;
+  color:#1e7f5c;
+}
+.panel{
+  background:#fff;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:15px;
+}
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:15px;
+}
+textarea{min-height:100px}
+button{
+  background:#1e7f5c;
+  color:#fff;
+  border:none;
+  padding:12px 20px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:15px;
+}
+button:hover{opacity:.9}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+  margin-top:30px;
+}
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:15px;
+  box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+.card img{
+  width:70px;
+  height:70px;
+  border-radius:10px;
+  object-fit:cover;
+  margin:2px;
+}
+.badge{
+  background:#1e7f5c;
+  color:#fff;
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+  margin-bottom:6px;
+}
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+.actions button{flex:1;font-size:14px}
+.del{background:#c0392b}
+.edit{background:#2980b9}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>لوحة التحكم</h1>
+
+<div class="panel">
+<form id="form">
+<div class="grid">
+  <input id="name" placeholder="اسم الورشة" required>
+  <input id="phone" type="number" placeholder="رقم الجوال (واتساب)" required>
+
+  <select id="cat">
+    <option value="cars">سيارات</option>
+    <option value="metal">حدادة</option>
+    <option value="sofa">كنب</option>
+    <option value="aluminum">ألمنيوم</option>
+  </select>
+
+  <input id="map" placeholder="رابط موقع الورشة (Google Maps)" required>
+</div>
+
+<textarea id="spec" placeholder="وصف الورشة" required></textarea>
+
+<input id="cover" placeholder="رابط صورة العرض (Card Cover)">
+
+<textarea id="images" placeholder="روابط الصور (كل رابط بسطر – 6 صور كحد أقصى)"></textarea>
+
+<br><br>
+<button>💾 حفظ الورشة</button>
+</form>
+</div>
+
+<div class="cards" id="list"></div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, getDocs,
+  deleteDoc, doc, updateDoc
+} from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBdhesRwD2eiDvqqcMGhC59U4whICwTO3E",
+  authDomain: "sanaeya-samtah.firebaseapp.com",
+  projectId: "sanaeya-samtah",
+  storageBucket: "sanaeya-samtah.firebasestorage.app",
+  messagingSenderId: "1092994215610",
+  appId: "1:1092994215610:web:e68b5a3eccb24235d39c83"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const form = document.getElementById("form");
+const list = document.getElementById("list");
+
+const nameI = document.getElementById("name");
+const phoneI = document.getElementById("phone");
+const catI = document.getElementById("cat");
+const mapI = document.getElementById("map");
+const specI = document.getElementById("spec");
+const imagesI = document.getElementById("images");
+const coverI = document.getElementById("cover");
+
+let editId = null;
+
+async function load(){
+  list.innerHTML="";
+  const snap = await getDocs(collection(db,"workshops"));
+  snap.forEach(d=>{
+    const w=d.data();
+    const c=document.createElement("div");
+    c.className="card";
+    c.innerHTML=`
+      <span class="badge">${w.cat}</span>
+      <h3>${w.name}</h3>
+      <p>${w.spec}</p>
+      <a href="https://wa.me/${w.phone}" target="_blank">${w.phone}</a><br>
+      <a href="${w.map}" target="_blank">📍 عرض الموقع</a>
+      <div>${(w.images||[]).map(i=>`<img src="${i}">`).join("")}</div>
+      <div class="actions">
+        <button class="edit" onclick="edit('${d.id}')">تعديل</button>
+        <button class="del" onclick="del('${d.id}')">حذف</button>
+      </div>
+    `;
+    list.appendChild(c);
+  });
+}
+
+window.del=async id=>{
+  if(confirm("حذف الورشة؟")){
+    await deleteDoc(doc(db,"workshops",id));
+    load();
+  }
+};
+
+window.edit=async id=>{
+  const snap = await getDocs(collection(db,"workshops"));
+  snap.forEach(d=>{
+    if(d.id===id){
+      const w=d.data();
+      editId=id;
+      nameI.value=w.name;
+      phoneI.value=w.phone;
+      catI.value=w.cat;
+      mapI.value=w.map;
+      specI.value=w.spec;
+      coverI.value=w.cover || "";
+      imagesI.value=(w.images||[]).join("\n");
+    }
+  });
+};
+
+form.onsubmit=async e=>{
+  e.preventDefault();
+
+  const images = imagesI.value
+    .split("\n")
+    .map(i=>i.trim())
+    .filter(i=>i)
+    .slice(0,6);
+
+  const data={
+    name:nameI.value.trim(),
+    phone:phoneI.value.trim(),
+    cat:catI.value,
+    map:mapI.value.trim(),
+    spec:specI.value.trim(),
+    cover:coverI.value.trim(),
+    images
+  };
+
+  if(editId){
+    await updateDoc(doc(db,"workshops",editId),data);
+    editId=null;
+  }else{
+    await addDoc(collection(db,"workshops"),data);
+  }
+
+  form.reset();
+  load();
+  alert("✅ تم الحفظ بنجاح");
+};
+
+load();
+</script>
+</body>
+</html>

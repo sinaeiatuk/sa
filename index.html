@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صناعيتك| صناعيتك صارت في يدك</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+ .skeleton{
+  background:#e5e7eb;
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+}
+
+.skeleton::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.6),
+    transparent
+  );
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer{
+  100%{left:100%}
+}
+
+.skeleton-img{
+  height:160px;
+  background:#d1d5db;
+}
+
+.skeleton-text{
+  height:14px;
+  margin:14px;
+  background:#d1d5db;
+  border-radius:6px;
+}
+
+
+
+  
+/* ===== تسجيل الدخول ===== */
+.auth-box{
+  position:absolute;
+  top:20px;
+  left:20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.login-btn{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.4);
+  color:#fff;
+  padding:8px 16px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:.3s;
+  font-family:'Cairo',sans-serif;
+}
+.login-btn:hover{background:rgba(255,255,255,.15)}
+
+.user-avatar{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.4);
+  cursor:pointer;
+  display:none;
+}
+
+.admin-btn{
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  padding:6px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  display:none;
+}
+.admin-btn:hover{background:#1d4ed8}
+
+/* ===== باقي الستايل (ما تغير) ===== */
+:root{
+  --accent:#2563eb;
+  --card:#ffffff;
+  --text:#1e293b;
+  --muted:#64748b;
+  --star:#facc15;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Cairo',sans-serif;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:#fff;
+}
+header{text-align:center;padding:40px 20px}
+header p{color:#cbd5f5}
+.search-box{max-width:500px;margin:30px auto}
+.search-box input{width:100%;padding:14px;border-radius:12px;border:none}
+
+/* الأقسام */
+.categories-wrapper{
+  display:flex;align-items:center;justify-content:center;gap:10px;margin:25px 0;
+}
+.categories{
+  display:flex;gap:30px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;
+}
+.categories::-webkit-scrollbar{display:none}
+.categories button{
+  background:none;border:none;color:#e5e7eb;font-size:16px;font-weight:600;cursor:pointer;
+}
+.categories button:hover{color:#fff}
+.arrow{background:none;border:none;color:#cbd5f5;font-size:28px;cursor:pointer}
+.container{width:90%;max-width:1200px;margin:40px auto}
+.section{margin-bottom:60px}
+.section h2{border-right:6px solid var(--accent);padding-right:15px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
+.card{
+  background:#fff;color:var(--text);border-radius:16px;padding:22px;
+  box-shadow:0 15px 35px rgba(0,0,0,.2);
+}
+.card{
+  position:relative;
+  overflow:hidden;
+}
+.whatsapp-float{
+  position:absolute;
+  bottom:14px;
+  left:14px;
+  width:46px;
+  height:46px;
+  background:#25D366;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:22px;
+  text-decoration:none;
+  box-shadow:0 8px 20px rgba(37,211,102,.5);
+  transition:.3s;
+  z-index:5;
+}
+
+.whatsapp-float:hover{
+  transform:scale(1.12);
+  box-shadow:0 12px 30px rgba(37,211,102,.8);
+}
+
+
+
+.card:hover{transform:translateY(-6px)}
+.support{
+  margin:30px auto;background:linear-gradient(135deg,#22c55e,#16a34a);
+  padding:14px 30px;border-radius:16px;width:max-content;
+}
+.support a{color:#fff;text-decoration:none;font-weight:700}
+footer{text-align:center;padding:25px;color:#cbd5f5}
+.card{
+  overflow:hidden;
+}
+
+.card-cover{
+  width:calc(100% + 44px);
+  height:160px;
+  margin:-22px -22px 15px -22px;
+}
+
+
+.card-cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-top-left-radius:16px;
+  border-top-right-radius:16px;
+}
+/* ===== صورة العرض المتقدمة ===== */
+.card-cover-wrap{
+  position:relative;
+  overflow:hidden;
+  border-radius:16px 16px 0 0;
+  margin:-22px -22px 15px -22px;
+}
+
+.card-cover-wrap img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  transition:transform .6s ease;
+}
+
+/* Gradient */
+.card-cover-wrap::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,.55),
+    rgba(0,0,0,.15),
+    transparent
+  );
+}
+
+/* اسم الورشة */
+.card-title{
+  position:absolute;
+  bottom:14px;
+  right:16px;
+  left:16px;
+  color:#fff;
+  font-size:18px;
+  font-weight:700;
+  z-index:2;
+  text-shadow:0 4px 15px rgba(0,0,0,.6);
+}
+
+/* Hover زوم */
+.card:hover .card-cover-wrap img{
+  transform:scale(1.08);
+}
+
+</style>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged }
+from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+import { getFirestore, collection, getDocs }
+from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBdhesRwD2eiDvqqcMGhC59U4whICwTO3E",
+  authDomain: "sanaeya-samtah.firebaseapp.com",
+  projectId: "sanaeya-samtah",
+  storageBucket: "sanaeya-samtah.firebasestorage.app",
+  messagingSenderId: "1092994215610",
+  appId: "1:1092994215610:web:e68b5a3eccb24235d39c83"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+/* 👑 حسابات المطورين */
+const ADMINS = [
+  "heemoxo41430@gmail.com",
+  "heemor14@gmail.com"
+];
+
+window.login = async ()=>{
+  await signInWithPopup(auth, provider);
+};
+
+/* عند تسجيل الدخول */
+onAuthStateChanged(auth, user=>{
+  if(!user) return;
+  document.querySelector(".login-btn").style.display="none";
+
+  const avatar=document.getElementById("avatar");
+  avatar.src=user.photoURL;
+  avatar.style.display="block";
+
+  if(ADMINS.includes(user.email)){
+    document.getElementById("adminBtn").style.display="block";
+  }
+});
+
+/* تحميل الورش */
+async function load(){
+ carsCards.innerHTML =
+metalCards.innerHTML =
+sofaCards.innerHTML =
+aluminumCards.innerHTML =
+Array(4).fill(`
+  <div class="card skeleton">
+    <div class="skeleton-img"></div>
+    <div class="skeleton-text"></div>
+    <div class="skeleton-text" style="width:70%"></div>
+  </div>
+`).join("");
+
+  const q=await getDocs(collection(db,"workshops"));
+  q.forEach(d=>{
+    const w=d.data();
+    const c=document.createElement("div");
+    c.className="card";
+    c.style.cursor="pointer";
+c.onclick=()=>{
+ c.onclick = () => {
+  location.href = "details.html?id=" + d.id;
+};
+
+};
+
+ c.innerHTML = `
+  ${w.cover ? `
+    <div class="card-cover-wrap">
+      <img src="${w.cover}">
+      <div class="card-title">${w.name}</div>
+    </div>
+  ` : `<h3>${w.name}</h3>`}
+
+  <p>${w.spec}</p>
+
+  <a class="whatsapp-float"
+     href="https://wa.me/${w.phone}"
+     target="_blank"
+     onclick="event.stopPropagation()">
+    💬
+  </a>
+`;
+
+
+    document.getElementById(w.cat+"Cards").appendChild(c);
+  });
+  
+}
+window.onload=load;
+
+window.goTo=id=>{
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
+};
+window.scrollCats=v=>{
+  document.getElementById("categories").scrollBy({left:v,behavior:"smooth"});
+  
+};
+
+</script>
+</head>
+
+<body>
+
+<header>
+  <div class="auth-box">
+    <button class="login-btn" onclick="login()">تسجيل الدخول</button>
+    <img id="avatar" class="user-avatar">
+    <button id="adminBtn" class="admin-btn" onclick="location.href='admin.html'">
+      لوحة المطور
+    </button>
+  </div>
+
+  <h1>صناعيتك</h1>
+  <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكه</p>
+
+  <div class="categories-wrapper">
+    <button class="arrow" onclick="scrollCats(200)">‹</button>
+    <div class="categories" id="categories">
+      <button onclick="goTo('cars')">🚗 السيارات</button>
+      <button onclick="goTo('metal')">🔨 الحدادة</button>
+      <button onclick="goTo('sofa')">🛋️ الكنب</button>
+      <button onclick="goTo('aluminum')">🪟 الألمنيوم</button>
+    </div>
+    <button class="arrow" onclick="scrollCats(-200)">›</button>
+  </div>
+
+  <div class="search-box">
+    <input placeholder="🔍 ابحث">
+  </div>
+</header>
+
+<div class="container">
+<section class="section" id="cars"><h2>ورش السيارات</h2><div class="cards" id="carsCards"></div></section>
+<section class="section" id="metal"><h2>ورش الحدادة</h2><div class="cards" id="metalCards"></div></section>
+<section class="section" id="sofa"><h2>ورش الكنب</h2><div class="cards" id="sofaCards"></div></section>
+<section class="section" id="aluminum"><h2>ورش الألمنيوم</h2><div class="cards" id="aluminumCards"></div></section>
+</div>
+
+<footer>
+  <div class="support">
+    💬 الدعم الفني:
+    <a href="https://wa.me/966531991617">0531991617</a>
+  </div>
+  <div>  صناعيتك | © 2025</div>
+</footer>
+
+</body>
+</html>
