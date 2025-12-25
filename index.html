@@ -81,7 +81,7 @@
     top: 0;
     left: 0;
     z-index: 10;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
 }
 
 
@@ -366,7 +366,22 @@ footer{text-align:center;padding:25px;color:#cbd5f5}
         font-size: 13px;
     }
 }
+#userPanel {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* المسافة بين الصورة والزر */
+    order: 2;   /* لضمان بقائهم في جهة اليسار في نظام الـ flex */
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    display: none; /* مخفي افتراضياً */
+}
 </style>
+
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
