@@ -68,20 +68,30 @@
 
   
 /* ===== تسجيل الدخول ===== */
-/* الحاوية العلوية */
+/* الحاوية الكبرى */
 .auth-box {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* يدفع اللوجو يمين والمجموعة يسار */
     align-items: center;
-    padding: 10px 5%;
     width: 100%;
-    box-sizing: border-box;
-    /* نجعلها مطلقة لكي يتحرك العنوان خلفها وبحرية */
-    position: absolute; 
-    top: 0;
-    left: 0;
-    z-index: 10;
-  
+    padding: 10px 5%;
+}
+
+/* حاوية الأزرار والأفاتار */
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* المسافة بين الصورة والزر */
+}
+
+/* تنسيق الصورة الشخصية */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: none; /* تظهر فقط بعد تسجيل الدخول */
+    border: 2px solid #2563eb;
 }
 
 
@@ -497,11 +507,14 @@ window.scrollCats=v=>{
 <header>
   <div class="auth-box">
     <img src="img/logo.PNG" class="site-logo">
-    <button class="login-btn" onclick="login()">تسجيل الدخول</button>
-    <img id="avatar" class="user-avatar">
-    <button id="adminBtn" class="admin-btn" onclick="location.href='admin.html'">
+
+    <div class="user-controls"></div>
+        <button id="adminBtn" class="admin-btn" onclick="location.href='admin.html'">
       لوحة المطور
     </button>
+    <img id="avatar" class="user-avatar">
+    <button class="login-btn" onclick="login()">تسجيل الدخول</button>
+    </div>
   </div>
   <h1>صناعيتك</h1>
   <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكه</p>
