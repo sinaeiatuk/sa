@@ -8,6 +8,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
+/* تحديد حجم الحاوية */
+.site-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-height: 60px; /* يمنع الحاوية من التمدد */
+}
+
+/* هذا الجزء هو الأهم للتحكم في الصورة */
+.site-logo img {
+    height: 40px !important; /* إجبار الصورة على هذا الارتفاع */
+    width: auto !important;   /* الحفاظ على أبعاد الصورة */
+    display: block;
+    object-fit: contain;
+}
+
+
  .skeleton{
   background:#e5e7eb;
   border-radius:16px;
@@ -51,27 +68,90 @@
 
   
 /* ===== تسجيل الدخول ===== */
-.auth-box{
-  position:absolute;
-  top:20px;
-  left:20px;
-  display:flex;
-  align-items:center;
-  gap:10px;
+/* الحاوية العلوية */
+.auth-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+    width: 100%;
+    box-sizing: border-box;
+    /* نجعلها مطلقة لكي يتحرك العنوان خلفها وبحرية */
+    position: absolute; 
+    top: 0;
+    left: 0;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.login-btn{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.4);
-  color:#fff;
-  padding:8px 16px;
-  border-radius:12px;
-  cursor:pointer;
-  transition:.3s;
-  font-family:'Cairo',sans-serif;
-}
-.login-btn:hover{background:rgba(255,255,255,.15)}
 
+/* تكبير اللوجو وتوضيحه */
+.site-logo {
+    height: 65px !important; /* تكبير الحجم قليلاً كما طلبت */
+    width: auto !important;
+    filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.5)); /* ظل مضيء خفيف خلف اللوجو */
+    transition: transform 0.3s ease;
+}
+
+.site-logo:hover {
+    transform: scale(1.05); /* حركة تكبير خفيفة عند التمرير */
+}
+
+/* زر تسجيل الدخول الفخم */
+.login-btn {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8); /* تدرج لوني أزرق */
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px; /* زوايا دائرية بالكامل */
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); /* ظل تحت الزر */
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-btn:hover {
+    transform: translateY(-2px); /* يرتفع للأعلى قليلاً */
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5); /* يقوى الظل عند التمرير */
+    background: linear-gradient(135deg, #3b82f6, #2563eb); /* تفتيح اللون */
+}
+header h1 {
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    margin: 10px auto; /* مسافة طبيعية للجوال */
+    font-size: 1.8rem;  /* حجم أصغر للجوال ليناسب الشاشة */
+    position: relative;
+    top: 0;             /* لا يوجد رفع في الجوال لضمان عدم التداخل */
+}
+
+/* التعديلات للشاشات الكبيرة (الكمبيوتر) فقط */
+@media (min-width: 769px) {
+    header h1 {
+        font-size: 2.5rem;
+        margin-top: -15px; /* يرتفع فقط في الكمبيوتر */
+        top: -20px;
+    }
+}
+/* زر لوحة المطور (بشكل متناسق) */
+.admin-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 13px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
 .user-avatar{
   width:42px;
   height:42px;
@@ -234,7 +314,58 @@ footer{text-align:center;padding:25px;color:#cbd5f5}
 .card:hover .card-cover-wrap img{
   transform:scale(1.08);
 }
+/* تحويل الكروت إلى سحب أفقي في الجوال فقط */
+@media (max-width: 768px) {
+    .cards {
+        display: flex !important; /* تحويل الشبكة إلى صف واحد */
+        overflow-x: auto !important; /* تفعيل السحب الأفقي */
+        scroll-snap-type: x mandatory; /* جعل الكرت ينجذب للمنتصف عند السحب */
+        gap: 15px !important;
+        padding-bottom: 20px; /* مساحة للسحب */
+        scrollbar-width: none; /* إخفاء شريط التمرير في فايرفوكس */
+    }
 
+    .cards::-webkit-scrollbar {
+        display: none; /* إخفاء شريط التمرير في كروم وسفاري */
+    }
+
+    .card {
+        min-width: 85%; /* عرض الكرت بالنسبة للشاشة (85% ليظهر طرف الكرت التالي) */
+        flex-shrink: 0; /* منع الكرت من الانكماش */
+        scroll-snap-align: center; /* جذب الكرت للمنتصف */
+        margin-bottom: 10px;
+    }
+
+    /* تعديل بسيط لحجم العنوان في الجوال ليكون متناسقاً */
+    header h1 {
+        font-size: 1.8rem;
+        top: -10px;
+    }
+
+    .auth-box {
+        padding: 5px 3%;
+    }
+
+    .site-logo {
+        height: 50px !important;
+    }
+}
+@media (max-width: 768px) {
+    .auth-box {
+        position: relative; /* تغيير من absolute إلى relative في الجوال فقط */
+        padding: 10px 15px;
+        margin-bottom: 10px;
+    }
+    
+    .site-logo {
+        height: 45px !important; /* تصغير اللوجو قليلاً في الجوال */
+    }
+
+    .login-btn {
+        padding: 8px 15px; /* تصغير الزر قليلاً */
+        font-size: 13px;
+    }
+}
 </style>
 
 <script type="module">
@@ -350,16 +481,15 @@ window.scrollCats=v=>{
 
 <header>
   <div class="auth-box">
+    <img src="img/logo.PNG" class="site-logo">
     <button class="login-btn" onclick="login()">تسجيل الدخول</button>
     <img id="avatar" class="user-avatar">
     <button id="adminBtn" class="admin-btn" onclick="location.href='admin.html'">
       لوحة المطور
     </button>
   </div>
-
   <h1>صناعيتك</h1>
   <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكه</p>
-
   <div class="categories-wrapper">
     <button class="arrow" onclick="scrollCats(200)">‹</button>
     <div class="categories" id="categories">
