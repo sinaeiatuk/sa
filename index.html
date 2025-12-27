@@ -684,6 +684,30 @@ footer div:last-child {
     transform: scale(0.95);
     background: rgba(255, 255, 255, 0.15);
 }
+/* ستايل ظهور الكروت التدريجي */
+.card {
+    opacity: 0; /* تكون مخفية في البداية */
+    transform: translateY(20px); /* تكون نازلة شوي لتحت */
+    animation: fadeInUp 0.6s ease forwards; /* حركة الظهور */
+}
+
+/* تعريف الحركة */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* إضافة تأخير بسيط لكل كرت عشان يطلعون ورا بعض (اختياري وفخم) */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
 </style>
 
 <script type="module">
@@ -851,16 +875,24 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
   <h1>صناعيتك</h1>
   <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكة</p>
 
-  <div class="categories-wrapper">
-    <button class="arrow" onclick="scrollCats(200)">‹</button>
-    <div class="categories" id="categories">
-      <button onclick="goTo('cars')">🚗 السيارات</button>
-      <button onclick="goTo('metal')">🔨 الحدادة و الألمنيوم</button>
-      <button onclick="goTo('sofa')">🛋️ الكنب</button>
-      <button onclick="goTo('aluminum')"> ❄️ المكيفات و الغسالات</button>
-    </div>
-    <button class="arrow" onclick="scrollCats(-200)">›</button>
-  </div>
+<div class="categories" id="categories">
+    <button onclick="goTo('cars')">
+        <span>🚗</span>
+        <span>السيارات</span>
+    </button>
+    <button onclick="goTo('metal')">
+        <span>🔨</span>
+        <span>الحدادة والألمنيوم</span>
+    </button>
+    <button onclick="goTo('sofa')">
+        <span>🛋️</span>
+        <span>الكنب</span>
+    </button>
+    <button onclick="goTo('aluminum')">
+        <span>❄️</span>
+        <span>المكيفات والغسالات</span>
+    </button>
+</div>
 
 <div class="search-box">
   <input id="searchInput" placeholder="🔍 ابحث عن اسم الورشة">
