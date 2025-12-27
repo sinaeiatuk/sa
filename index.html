@@ -419,22 +419,38 @@ header h1, header p, .section h2 {
 
 /* تحويل الشبكة لسحب أفقي في الجوال فقط */
 @media (max-width: 768px) {
+    /* 1. ضبط العناوين عشان ما تزحم الشاشة */
+    header h1 { font-size: 2rem !important; margin-top: 10px; }
+    header p { font-size: 0.85rem; padding: 0 15px; }
+
+    /* 2. ضبط الأقسام (السيارات، الكنب..) عشان تسحبها بيدك */
+    .categories {
+        justify-content: flex-start !important;
+        overflow-x: auto;
+        gap: 8px;
+        padding: 10px 15px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .categories button { flex-shrink: 0; font-size: 13px; }
+
+    /* 3. الكروت (اللي كنت تسأل عنها) - نسخة محسنة */
     .cards {
-        display: flex;
+        display: flex !important;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         gap: 15px;
-        padding: 20px 10px;
+        padding: 15px 10px;
         scrollbar-width: none;
     }
     .cards::-webkit-scrollbar { display: none; }
+    
     .card {
-        min-width: 85%;
+        min-width: 85% !important;
+        height: 390px !important; /* تقليل الارتفاع شوي عشان يناسب شاشات الجوال */
         flex-shrink: 0;
         scroll-snap-align: center;
     }
 }
-
 .search-box {
     position: sticky;
     top: 10px; /* المسافة من فوق لما يثبت */
