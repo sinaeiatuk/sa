@@ -316,6 +316,29 @@ function shareWorkshop(event) {
         alert('تم نسخ رابط الورشة، يمكنك إرساله الآن!');
     }
 }
+function shareWorkshop(event) {
+    event.preventDefault(); // منع الرابط من تحديث الصفحة
+    
+    // جلب اسم الورشة من العنوان الموجود في الصفحة
+    const workshopName = document.querySelector('h1').innerText;
+    const shareData = {
+        title: workshopName,
+        text: `شف هذي الورشة في تطبيق صناعيتك: ${workshopName}`,
+        url: window.location.href // رابط الصفحة الحالي
+    };
+
+    // التأكد إذا كان المتصفح يدعم خاصية المشاركة (أغلب الجوالات تدعمها)
+    if (navigator.share) {
+        navigator.share(shareData)
+            .then(() => console.log('تمت المشاركة بنجاح'))
+            .catch((err) => console.log('خطأ في المشاركة:', err));
+    } else {
+        // إذا كان المتصفح لا يدعمها (مثل بعض المتصفحات القديمة على الكمبيوتر)
+        // نقوم بنسخ الرابط وتنبيه المستخدم
+        navigator.clipboard.writeText(window.location.href);
+        alert('تم نسخ رابط الورشة، يمكنك إرساله الآن!');
+    }
+}
 </script>
 </body>
 </html>
