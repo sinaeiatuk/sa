@@ -528,7 +528,9 @@ const firebaseConfig = {
   storageBucket: "sanaeya-samtah.firebasestorage.app",
   messagingSenderId: "1092994215610",
   appId: "1:1092994215610:web:e68b5a3eccb24235d39c83"
+  
 };
+
 
 
 const app = initializeApp(firebaseConfig);
@@ -545,8 +547,25 @@ const ADMINS = [
 window.login = async ()=>{
   await signInWithPopup(auth, provider);
 };
+window.login = async () => {
+    try {
+        const result = await signInWithPopup(auth, provider);
+        // هنا السر: استدعِ الدالة بعد نجاح الدخول مباشرة
+        closeLogin(); 
+    } catch (error) {
+        console.error("خطأ:", error);
+    }
+};
 
 /* عند تسجيل الدخول */
+onAuthStateChanged(auth, user => {
+    if (user) {
+        // إذا وجدنا مستخدم، نخفي النافذة فوراً
+        document.getElementById("loginOverlay").style.display = "none";
+        
+        // باقي كود الأفاتار والمطور الخاص بك...
+    }
+});
 onAuthStateChanged(auth, user=>{
   if(!user) return;
   document.querySelector(".login-btn").style.display="none";
