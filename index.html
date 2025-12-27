@@ -253,15 +253,11 @@ header p{color:#cbd5f5}
 }
 /* هذا هو الكود الذي ينظم النص داخل الكارد */
 .card p {
-    display: block;          /* يجعل النص يأخذ حيزاً مستقلاً */
-    white-space: normal;      /* أهم خاصية: تسمح للنص بالنزول لسطر جديد */
-    word-wrap: break-word;   /* تكسر الكلمات الطويلة جداً */
-    width: 100%;             /* تمنع النص من تجاوز عرض الكارد */
-    line-height: 1.6;        /* تباعد أسطر مريح للعين */
-    margin-top: 15px;        /* مسافة بين العنوان والوصف */
-    color: var(--muted);     /* لون رمادي خفيف فخم */
-    text-align: right;       /* محاذاة لليمين */
+  white-space: normal;
+  word-break: break-word;
+  overflow: hidden;
 }
+
 .card {
     overflow: visible !important; /* لمنع قص الظل أو الحركة العلوية */
 }
@@ -440,6 +436,13 @@ footer{text-align:center;padding:25px;color:#cbd5f5}
     width: 80%;
     max-width: 80%;
   }
+  @media (max-width: 768px) {
+  .card {
+    min-width: 85%;
+    max-width: 85%;   /* ← هذا السطر هو المفتاح */
+  }
+}
+
 
   .card p {
     display: -webkit-box;
@@ -577,7 +580,7 @@ window.scrollCats=v=>{
 
   </div>
   <h1>صناعيتك</h1>
-  <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكه</p>
+  <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكة</p>
   <div class="categories-wrapper">
     <button class="arrow" onclick="scrollCats(200)">‹</button>
     <div class="categories" id="categories">
@@ -596,9 +599,9 @@ window.scrollCats=v=>{
 
 <div class="container">
 <section class="section" id="cars"><h2>ورش السيارات</h2><div class="cards" id="carsCards"></div></section>
-<section class="section" id="metal"><h2>ورش الحدادة</h2><div class="cards" id="metalCards"></div></section>
+<section class="section" id="metal"><h2>ورش الحدادة والألمنيوم</h2><div class="cards" id="metalCards"></div></section>
 <section class="section" id="sofa"><h2>ورش الكنب</h2><div class="cards" id="sofaCards"></div></section>
-<section class="section" id="aluminum"><h2>ورش الألمنيوم</h2><div class="cards" id="aluminumCards"></div></section>
+<section class="section" id="aluminum"><h2>ورش المكيفات والغسالات</h2><div class="cards" id="aluminumCards"></div></section>
 </div>
 
 <footer>
