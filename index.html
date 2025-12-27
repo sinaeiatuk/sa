@@ -434,6 +434,24 @@ footer{text-align:center;padding:25px;color:#cbd5f5}
     scroll-snap-align: start;
   }
 }
+@media (max-width: 768px) {
+
+  .card {
+    width: 80%;
+    max-width: 80%;
+  }
+
+  .card p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* عدد السطور */
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
+
 
 </style>
 
