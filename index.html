@@ -8,23 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* تحديد حجم الحاوية */
-.site-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    max-height: 60px; /* يمنع الحاوية من التمدد */
-}
-
-/* هذا الجزء هو الأهم للتحكم في الصورة */
-.site-logo img {
-    height: 40px !important; /* إجبار الصورة على هذا الارتفاع */
-    width: auto !important;   /* الحفاظ على أبعاد الصورة */
-    display: block;
-    object-fit: contain;
-}
-
-
  .skeleton{
   background:#e5e7eb;
   border-radius:16px;
@@ -68,88 +51,27 @@
 
   
 /* ===== تسجيل الدخول ===== */
-/* الحاوية الكبرى */
-.auth-box {
-    display: flex;
-    justify-content: space-between; /* يدفع اللوجو يمين والمجموعة يسار */
-    align-items: center;
-    width: 100%;
-    padding: 10px 5%;
+.auth-box{
+  position:absolute;
+  top:20px;
+  left:20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-/* حاوية الأزرار والأفاتار */
-.user-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* المسافة بين الصورة والزر */
+.login-btn{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.4);
+  color:#fff;
+  padding:8px 16px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:.3s;
+  font-family:'Cairo',sans-serif;
 }
+.login-btn:hover{background:rgba(255,255,255,.15)}
 
-/* تنسيق الصورة الشخصية */
-
-
-
-/* تكبير اللوجو وتوضيحه */
-.site-logo {
-    height: 65px !important; /* تكبير الحجم قليلاً كما طلبت */
-    width: auto !important;
-    filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.5)); /* ظل مضيء خفيف خلف اللوجو */
-    transition: transform 0.3s ease;
-}
-
-.site-logo:hover {
-    transform: scale(1.05); /* حركة تكبير خفيفة عند التمرير */
-}
-
-/* زر تسجيل الدخول الفخم */
-.login-btn {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8); /* تدرج لوني أزرق */
-    color: white;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 50px; /* زوايا دائرية بالكامل */
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); /* ظل تحت الزر */
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.login-btn:hover {
-    transform: translateY(-2px); /* يرتفع للأعلى قليلاً */
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5); /* يقوى الظل عند التمرير */
-    background: linear-gradient(135deg, #3b82f6, #2563eb); /* تفتيح اللون */
-}
-header h1 {
-    text-align: center;
-    color: #ffffff;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-    margin: 10px auto; /* مسافة طبيعية للجوال */
-    font-size: 1.8rem;  /* حجم أصغر للجوال ليناسب الشاشة */
-    position: relative;
-    top: 0;             /* لا يوجد رفع في الجوال لضمان عدم التداخل */
-}
-
-/* التعديلات للشاشات الكبيرة (الكمبيوتر) فقط */
-
-
-/* زر لوحة المطور (بشكل متناسق) */
-.admin-btn {
-    background: rgba(255, 255, 255, 0.05);
-    color: #cbd5e1;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 8px 18px;
-    border-radius: 50px;
-    font-size: 13px;
-    margin-right: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.admin-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-}
 .user-avatar{
   width:42px;
   height:42px;
@@ -207,59 +129,14 @@ header p{color:#cbd5f5}
 .container{width:90%;max-width:1200px;margin:40px auto}
 .section{margin-bottom:60px}
 .section h2{border-right:6px solid var(--accent);padding-right:15px}
-/* الكود المصلح والمضمون */
-.cards {
-    display: grid !important; /* للكمبيوتر: تظهر الكروت بجانب بعضها وتحت بعضها */
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 22px;
-    padding: 30px 10px 10px 10px; /* مساحة علوية 30px تضمن عدم قص الكارد عند رفعه */
-    overflow: visible !important;  /* يسمح للكارد بالارتفاع فوق حدود القسم */
-}
-
-/* تعديل خاص للجوال فقط */
-
-    
-    .card {
-        min-width: 85%; /* حجم الكارد ليظهر جزء من الكارد التالي (تلميح للسحب) */
-        flex-shrink: 0;
-        scroll-snap-align: center;
-    }
-
-
-/* حل مشكلة العلامة الخضراء (الواتساب) */
-.card {
-    position: relative !important; /* ضروري لتثبيت الأيقونة بالداخل */
-    overflow: visible !important;   /* يمنع قص الكارد من الأعلى */
-    transition: transform 0.3s ease;
-}
-
-.whatsapp-float {
-    position: absolute !important;
-    bottom: 15px !important;
-    left: 15px !important; /* يثبتها في الزاوية السفلى اليسرى للكارد */
-    right: auto !important; /* يلغي أي محاذاة لليمين قديمة */
-    margin: 0 !important;
-}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
 .card{
   background:#fff;color:var(--text);border-radius:16px;padding:22px;
   box-shadow:0 15px 35px rgba(0,0,0,.2);
 }
-.section { 
-    overflow: visible !important; /* اسمح للعناصر بالخروج عن حدود القسم */
-}
-.cards {
-    padding-top: 30px !important; /* مساحة علوية ليرتفع فيها الكارد */
-    overflow: visible !important;
-}
-/* هذا هو الكود الذي ينظم النص داخل الكارد */
-.card p {
-  white-space: normal;
-  word-break: break-word;
-  overflow: hidden;
-}
-
-.card {
-    overflow: visible !important; /* لمنع قص الظل أو الحركة العلوية */
+.card{
+  position:relative;
+  overflow:hidden;
 }
 .whatsapp-float{
   position:absolute;
@@ -357,130 +234,8 @@ footer{text-align:center;padding:25px;color:#cbd5f5}
 .card:hover .card-cover-wrap img{
   transform:scale(1.08);
 }
-/* تحويل الكروت إلى سحب أفقي في الجوال فقط */
-
-
-    .cards::-webkit-scrollbar {
-        display: none; /* إخفاء شريط التمرير في كروم وسفاري */
-    }
-
-    .card {
-        min-width: 85%; /* عرض الكرت بالنسبة للشاشة (85% ليظهر طرف الكرت التالي) */
-        flex-shrink: 0; /* منع الكرت من الانكماش */
-        scroll-snap-align: center; /* جذب الكرت للمنتصف */
-        margin-bottom: 10px;
-    }
-
-    /* تعديل بسيط لحجم العنوان في الجوال ليكون متناسقاً */
-    header h1 {
-        font-size: 1.8rem;
-        top: -10px;
-    }
-
-    .auth-box {
-        padding: 5px 3%;
-    }
-
-    .site-logo {
-        height: 50px !important;
-    }
-
-
-    
-    .site-logo {
-        height: 45px !important; /* تصغير اللوجو قليلاً في الجوال */
-    }
-
-    .login-btn {
-        padding: 8px 15px; /* تصغير الزر قليلاً */
-        font-size: 13px;
-    }
-
-#userPanel {
-    display: flex;
-    align-items: center;
-    gap: 12px; /* المسافة بين الصورة والزر */
-    order: 2;   /* لضمان بقائهم في جهة اليسار في نظام الـ flex */
-}
-
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid var(--accent);
-    display: none; /* مخفي افتراضياً */
-}
-@media (max-width: 768px) {
-
-  .cards {
-    display: flex !important;
-    overflow-x: auto;
-    gap: 16px;
-    padding-bottom: 10px;
-    scroll-snap-type: x mandatory;
-  }
-
-  .cards::-webkit-scrollbar {
-    display: none;
-  }
-
-  .card {
-    min-width: 80%;
-    flex-shrink: 0;
-    scroll-snap-align: start;
-  }
-}
-@media (max-width: 768px) {
-
-  .card {
-    width: 80%;
-    max-width: 80%;
-  }
-  @media (max-width: 768px) {
-  .card {
-    min-width: 85%;
-    max-width: 85%;   /* ← هذا السطر هو المفتاح */
-  }
-}
-
-
-  .card p {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3; /* عدد السطور */
-    overflow: hidden;
-    white-space: normal;
-    word-break: break-word;
-  }
-}
-
-
-/* === FIX نهائي للكروت في الجوال === */
-@media (max-width: 768px) {
-
-  .cards {
-    display: flex !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory;
-  }
-
-  .card {
-    flex: 0 0 85% !important;
-    max-width: 85% !important;
-    min-width: 85% !important;
-    scroll-snap-align: center;
-  }
-
-  .card p {
-    white-space: normal !important;
-    word-break: break-word !important;
-    overflow: hidden !important;
-  }
-
-}
 
 </style>
-
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
@@ -530,7 +285,10 @@ onAuthStateChanged(auth, user=>{
 
 /* تحميل الورش */
 async function load(){
- 
+ carsCards.innerHTML =
+metalCards.innerHTML =
+sofaCards.innerHTML =
+aluminumCards.innerHTML =
 Array(4).fill(`
   <div class="card skeleton">
     <div class="skeleton-img"></div>
@@ -592,25 +350,23 @@ window.scrollCats=v=>{
 
 <header>
   <div class="auth-box">
-  <img src="img/logo.PNG" class="site-logo">
-
-  <div class="user-controls">
-    <button id="adminBtn" class="admin-btn" style="display:none;">لوحة المطور</button>
-    <img id="avatar" class="user-avatar">
     <button class="login-btn" onclick="login()">تسجيل الدخول</button>
+    <img id="avatar" class="user-avatar">
+    <button id="adminBtn" class="admin-btn" onclick="location.href='admin.html'">
+      لوحة المطور
+    </button>
   </div>
-</div>
 
-  </div>
   <h1>صناعيتك</h1>
   <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكة</p>
+
   <div class="categories-wrapper">
     <button class="arrow" onclick="scrollCats(200)">‹</button>
     <div class="categories" id="categories">
       <button onclick="goTo('cars')">🚗 السيارات</button>
-      <button onclick="goTo('metal')">🔨 الحدادة</button>
+      <button onclick="goTo('metal')">🔨 الحدادة و الألمنيوم</button>
       <button onclick="goTo('sofa')">🛋️ الكنب</button>
-      <button onclick="goTo('aluminum')">🪟 الألمنيوم</button>
+      <button onclick="goTo('aluminum')"> ❄️ المكيفات و الغسالات</button>
     </div>
     <button class="arrow" onclick="scrollCats(-200)">›</button>
   </div>
@@ -622,9 +378,9 @@ window.scrollCats=v=>{
 
 <div class="container">
 <section class="section" id="cars"><h2>ورش السيارات</h2><div class="cards" id="carsCards"></div></section>
-<section class="section" id="metal"><h2>ورش الحدادة والألمنيوم</h2><div class="cards" id="metalCards"></div></section>
+<section class="section" id="metal"><h2>ورش الحدادة والألميوم</h2><div class="cards" id="metalCards"></div></section>
 <section class="section" id="sofa"><h2>ورش الكنب</h2><div class="cards" id="sofaCards"></div></section>
-<section class="section" id="aluminum"><h2>ورش المكيفات والغسالات</h2><div class="cards" id="aluminumCards"></div></section>
+<section class="section" id="aluminum"><h2>ورش المكيفات و الغسالات</h2><div class="cards" id="aluminumCards"></div></section>
 </div>
 
 <footer>
