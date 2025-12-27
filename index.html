@@ -85,14 +85,7 @@
 }
 
 /* تنسيق الصورة الشخصية */
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    display: none; /* تظهر فقط بعد تسجيل الدخول */
-    border: 2px solid #2563eb;
-}
+
 
 
 /* تكبير اللوجو وتوضيحه */
@@ -534,15 +527,15 @@ window.scrollCats=v=>{
 
 <header>
   <div class="auth-box">
-    <img src="img/logo.PNG" class="site-logo">
+  <img src="img/logo.PNG" class="site-logo">
 
-    <div class="user-controls">
+  <div class="user-controls">
     <button id="adminBtn" class="admin-btn" style="display:none;">لوحة المطور</button>
-    <img id="avatar" class="user-avatar" style="display:none;">
+    <img id="avatar" class="user-avatar">
     <button class="login-btn" onclick="login()">تسجيل الدخول</button>
+  </div>
 </div>
-    <button class="login-btn" onclick="login()">تسجيل الدخول</button>
-    </div>
+
   </div>
   <h1>صناعيتك</h1>
   <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكه</p>
