@@ -520,7 +520,18 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged }
 from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import { getFirestore, collection, getDocs }
 from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+window.closeLogin = () => {
+    const overlay = document.getElementById('loginOverlay');
+    
+    // 1. إخفاء النافذة بتأثير ناعم
+    overlay.style.opacity = '0';
+    setTimeout(() => {
+        overlay.style.display = 'none';
+    }, 500);
 
+    // 2. السر هنا: حفظ علامة في المتصفح ليعرف الموقع أن المستخدم دخل كزائر
+    localStorage.setItem('hasVisited', 'true');
+};
 const firebaseConfig = {
   apiKey: "AIzaSyBdhesRwD2eiDvqqcMGhC59U4whICwTO3E",
   authDomain: "sanaeya-samtah.firebaseapp.com",
@@ -664,6 +675,17 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
         section.style.display = visibleCards ? "block" : (term === "" ? "block" : "none");
     });
 });
+// ... نهاية الأكواد السابقة ...
+
+// هذا الكود يتحقق فور تشغيل السكريبت
+if (localStorage.getItem('hasVisited')) {
+    const overlay = document.getElementById('loginOverlay');
+    if (overlay) overlay.style.display = 'none';
+}
+
+// تأكد أن دالة التحميل موجودة
+window.onload = load;
+</script>
 </script>
 </head>
 
@@ -680,7 +702,6 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
             
 
             <button class="secondary-btn" onclick="closeLogin()">المتابعة كزائر</button>
-        </div>
         
         <p class="login-footer-text">من خلال الدخول، أنت توافق على شروط الخدمة</p>
     </div>
