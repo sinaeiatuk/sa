@@ -750,6 +750,20 @@ footer div:last-child {
     font-size: 24px !important;
     margin-bottom: 5px !important;
 }
+.main-header {
+    display: flex;
+    justify-content: center; /* يخليها في النص بالعرض */
+    align-items: center;
+    padding: 30px 0; /* مسافة من فوق وتحت */
+    width: 100%;
+}
+
+.top-logo {
+    width: 200px; /* الحجم المناسب للجوال والكمبيوتر */
+    height: auto;
+    /* إضافة هالة ضوئية خلف اللوجو ليبرز فوق الخلفية الداكنة */
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+}
 </style>
 
 <script type="module">
@@ -914,7 +928,9 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
     </button>
   </div>
 
-  <h1>صناعيتك</h1>
+  <div class="main-header">
+    <img src="img/LOGO.png" alt="صناعيتك" class="top-logo">
+</div>
   <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكة</p>
 
 <div class="categories" id="categories">
