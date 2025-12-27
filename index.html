@@ -455,6 +455,29 @@ footer{text-align:center;padding:25px;color:#cbd5f5}
 }
 
 
+/* === FIX نهائي للكروت في الجوال === */
+@media (max-width: 768px) {
+
+  .cards {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+  }
+
+  .card {
+    flex: 0 0 85% !important;
+    max-width: 85% !important;
+    min-width: 85% !important;
+    scroll-snap-align: center;
+  }
+
+  .card p {
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow: hidden !important;
+  }
+
+}
 
 </style>
 
