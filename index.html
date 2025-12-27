@@ -191,7 +191,7 @@ header p {
     
     /* تأثير الضباب (Glassmorphism) خلف النص */
     background: rgba(0, 0, 0, 0.3); /* لون أسود خفيف جداً */
-    backdrop-filter: blur(3px);    /* تأثير التغبيش أو الضباب */
+    backdrop-filter: blur(1px);    /* تأثير التغبيش أو الضباب */
     -webkit-backdrop-filter: blur(8px); /* لدعم متصفحات آبل */
     
     border-radius: 10px;           /* حواف ناعمة للخلفية الضبابية */
@@ -619,6 +619,71 @@ footer div:last-child {
         box-sizing: border-box !important;
     }
 }
+/* تأثير اللمعان الزجاجي - أضفه في آخر الستايل */
+.card {
+    position: relative;
+    overflow: hidden; /* ضروري جداً عشان الضوء ما يطلع برا حواف الكرت */
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%; /* يبدأ من برا الكرت من اليسار */
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        to right, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent
+    );
+    transform: skewX(-25deg); /* ميلان الضوء */
+    transition: 0.6s;
+    pointer-events: none; /* عشان ما يمنعك من الضغط على الكرت */
+}
+
+.card:hover::before {
+    left: 150%; /* يتحرك لليمين بسرعة عند مرور الماوس */
+}
+/* ستايل أزرار التصنيفات الزجاجية المتفاعلة */
+#categories button {
+    position: relative;
+    overflow: hidden; /* ضروري جداً لحصر اللمعة داخل الزر */
+    background: rgba(255, 255, 255, 0.05); /* خلفية زجاجية خفيفة */
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* طبقة اللمعة الزجاجية */
+#categories button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(
+        to right, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent
+    );
+    transform: skewX(-30deg);
+    transition: 0.4s;
+}
+
+/* حركة اللمعة عند اللمس أو مرور الماوس */
+#categories button:hover::before {
+    left: 140%;
+}
+
+/* تأثير عند الضغط */
+#categories button:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.15);
+}
 </style>
 
 <script type="module">
@@ -772,7 +837,7 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
     </div>
 
     <div class="container">
-        ...
+        
 
 <header>
   <div class="auth-box">
