@@ -138,13 +138,8 @@ header h1 {
 }
 
 /* التعديلات للشاشات الكبيرة (الكمبيوتر) فقط */
-@media (min-width: 769px) {
-    header h1 {
-        font-size: 2.5rem;
-        margin-top: -15px; /* يرتفع فقط في الكمبيوتر */
-        top: -20px;
-    }
-}
+
+
 /* زر لوحة المطور (بشكل متناسق) */
 .admin-btn {
     background: rgba(255, 255, 255, 0.05);
@@ -219,14 +214,63 @@ header p{color:#cbd5f5}
 .container{width:90%;max-width:1200px;margin:40px auto}
 .section{margin-bottom:60px}
 .section h2{border-right:6px solid var(--accent);padding-right:15px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
+/* الكود المصلح والمضمون */
+.cards {
+    display: grid !important; /* للكمبيوتر: تظهر الكروت بجانب بعضها وتحت بعضها */
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+    padding: 30px 10px 10px 10px; /* مساحة علوية 30px تضمن عدم قص الكارد عند رفعه */
+    overflow: visible !important;  /* يسمح للكارد بالارتفاع فوق حدود القسم */
+}
+
+/* تعديل خاص للجوال فقط */
+
+    
+    .card {
+        min-width: 85%; /* حجم الكارد ليظهر جزء من الكارد التالي (تلميح للسحب) */
+        flex-shrink: 0;
+        scroll-snap-align: center;
+    }
+
+
+/* حل مشكلة العلامة الخضراء (الواتساب) */
+.card {
+    position: relative !important; /* ضروري لتثبيت الأيقونة بالداخل */
+    overflow: visible !important;   /* يمنع قص الكارد من الأعلى */
+    transition: transform 0.3s ease;
+}
+
+.whatsapp-float {
+    position: absolute !important;
+    bottom: 15px !important;
+    left: 15px !important; /* يثبتها في الزاوية السفلى اليسرى للكارد */
+    right: auto !important; /* يلغي أي محاذاة لليمين قديمة */
+    margin: 0 !important;
+}
 .card{
   background:#fff;color:var(--text);border-radius:16px;padding:22px;
   box-shadow:0 15px 35px rgba(0,0,0,.2);
 }
-.card{
-  position:relative;
-  overflow:hidden;
+.section { 
+    overflow: visible !important; /* اسمح للعناصر بالخروج عن حدود القسم */
+}
+.cards {
+    padding-top: 30px !important; /* مساحة علوية ليرتفع فيها الكارد */
+    overflow: visible !important;
+}
+/* هذا هو الكود الذي ينظم النص داخل الكارد */
+.card p {
+    display: block;          /* يجعل النص يأخذ حيزاً مستقلاً */
+    white-space: normal;      /* أهم خاصية: تسمح للنص بالنزول لسطر جديد */
+    word-wrap: break-word;   /* تكسر الكلمات الطويلة جداً */
+    width: 100%;             /* تمنع النص من تجاوز عرض الكارد */
+    line-height: 1.6;        /* تباعد أسطر مريح للعين */
+    margin-top: 15px;        /* مسافة بين العنوان والوصف */
+    color: var(--muted);     /* لون رمادي خفيف فخم */
+    text-align: right;       /* محاذاة لليمين */
+}
+.card {
+    overflow: visible !important; /* لمنع قص الظل أو الحركة العلوية */
 }
 .whatsapp-float{
   position:absolute;
@@ -325,15 +369,7 @@ footer{text-align:center;padding:25px;color:#cbd5f5}
   transform:scale(1.08);
 }
 /* تحويل الكروت إلى سحب أفقي في الجوال فقط */
-@media (max-width: 768px) {
-    .cards {
-        display: flex !important; /* تحويل الشبكة إلى صف واحد */
-        overflow-x: auto !important; /* تفعيل السحب الأفقي */
-        scroll-snap-type: x mandatory; /* جعل الكرت ينجذب للمنتصف عند السحب */
-        gap: 15px !important;
-        padding-bottom: 20px; /* مساحة للسحب */
-        scrollbar-width: none; /* إخفاء شريط التمرير في فايرفوكس */
-    }
+
 
     .cards::-webkit-scrollbar {
         display: none; /* إخفاء شريط التمرير في كروم وسفاري */
@@ -359,13 +395,8 @@ footer{text-align:center;padding:25px;color:#cbd5f5}
     .site-logo {
         height: 50px !important;
     }
-}
-@media (max-width: 768px) {
-    .auth-box {
-        position: relative; /* تغيير من absolute إلى relative في الجوال فقط */
-        padding: 10px 15px;
-        margin-bottom: 10px;
-    }
+
+
     
     .site-logo {
         height: 45px !important; /* تصغير اللوجو قليلاً في الجوال */
@@ -375,7 +406,7 @@ footer{text-align:center;padding:25px;color:#cbd5f5}
         padding: 8px 15px; /* تصغير الزر قليلاً */
         font-size: 13px;
     }
-}
+
 #userPanel {
     display: flex;
     align-items: center;
@@ -441,10 +472,7 @@ onAuthStateChanged(auth, user=>{
 
 /* تحميل الورش */
 async function load(){
- carsCards.innerHTML =
-metalCards.innerHTML =
-sofaCards.innerHTML =
-aluminumCards.innerHTML =
+ 
 Array(4).fill(`
   <div class="card skeleton">
     <div class="skeleton-img"></div>
@@ -508,11 +536,11 @@ window.scrollCats=v=>{
   <div class="auth-box">
     <img src="img/logo.PNG" class="site-logo">
 
-    <div class="user-controls"></div>
-        <button id="adminBtn" class="admin-btn" onclick="location.href='admin.html'">
-      لوحة المطور
-    </button>
-    <img id="avatar" class="user-avatar">
+    <div class="user-controls">
+    <button id="adminBtn" class="admin-btn" style="display:none;">لوحة المطور</button>
+    <img id="avatar" class="user-avatar" style="display:none;">
+    <button class="login-btn" onclick="login()">تسجيل الدخول</button>
+</div>
     <button class="login-btn" onclick="login()">تسجيل الدخول</button>
     </div>
   </div>
