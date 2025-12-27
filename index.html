@@ -8,114 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-  .google-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background: white; /* جوجل يفضل خلفية بيضاء لزره الرسمي */
-    color: #1f2937;
-    padding: 15px;
-    border: none;
-    border-radius: 15px;
-    font-size: 1.05rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.google-btn img {
-    width: 22px;
-    height: 22px;
-}
-
-.google-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
-    background: #f8fafc;
-}
-
-.login-footer-text {
-    margin-top: 25px;
-    font-size: 0.8rem;
-    color: #64748b;
-}
-.login-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(11, 15, 25, 0.9); /* نفس لون خلفية الـ body */
-    backdrop-filter: blur(20px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-}
-
-.login-modal {
-    background: rgba(255, 255, 255, 0.03); /* نفس نظام الكروت */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 50px 30px;
-    border-radius: 30px;
-    text-align: center;
-    max-width: 420px;
-    width: 90%;
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
-}
-
-.login-logo {
-    font-size: 3rem;
-    font-weight: 800;
-    background: linear-gradient(90deg, #fff, #6366f1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 15px;
-}
-
-.login-desc {
-    color: #94a3b8;
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 40px;
-}
-
-.login-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* زر تسجيل الدخول - نفس ستايل أزرار الموقع */
-.primary-btn {
-    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-    color: white;
-    padding: 18px;
-    border: none;
-    border-radius: 15px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
-}
-
-/* زر الزائر - ستايل زجاجي ناعم */
-.secondary-btn {
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
-    padding: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.primary-btn:hover, .secondary-btn:hover {
-    transform: translateY(-3px);
-    filter: brightness(1.2);
-}
 :root {
     --primary-bg: #0b0f19;
     --accent: #6366f1;
@@ -417,23 +309,31 @@ header h1, header p, .section h2 {
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
-/* تحويل الشبكة لسحب أفقي في الجوال فقط */
+/* ===== الجوال فقط ===== */
 @media (max-width: 768px) {
+
     .cards {
-        display: flex;
+        display: flex !important;
+        flex-direction: row;
         overflow-x: auto;
+        gap: 16px;
+        padding: 20px 16px;
         scroll-snap-type: x mandatory;
-        gap: 15px;
-        padding: 20px 10px;
-        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
     }
-    .cards::-webkit-scrollbar { display: none; }
+
+    .cards::-webkit-scrollbar {
+        display: none;
+    }
+
     .card {
-        min-width: 85%;
-        flex-shrink: 0;
+        flex: 0 0 85% !important;   /* المفتاح */
+        max-width: 85% !important;
+        min-width: 85% !important;
         scroll-snap-align: center;
     }
 }
+
 
 .search-box {
     position: sticky;
@@ -520,18 +420,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged }
 from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import { getFirestore, collection, getDocs }
 from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
-window.closeLogin = () => {
-    const overlay = document.getElementById('loginOverlay');
-    
-    // 1. إخفاء النافذة بتأثير ناعم
-    overlay.style.opacity = '0';
-    setTimeout(() => {
-        overlay.style.display = 'none';
-    }, 500);
 
-    // 2. السر هنا: حفظ علامة في المتصفح ليعرف الموقع أن المستخدم دخل كزائر
-    localStorage.setItem('hasVisited', 'true');
-};
 const firebaseConfig = {
   apiKey: "AIzaSyBdhesRwD2eiDvqqcMGhC59U4whICwTO3E",
   authDomain: "sanaeya-samtah.firebaseapp.com",
@@ -539,9 +428,7 @@ const firebaseConfig = {
   storageBucket: "sanaeya-samtah.firebasestorage.app",
   messagingSenderId: "1092994215610",
   appId: "1:1092994215610:web:e68b5a3eccb24235d39c83"
-  
 };
-
 
 
 const app = initializeApp(firebaseConfig);
@@ -558,25 +445,8 @@ const ADMINS = [
 window.login = async ()=>{
   await signInWithPopup(auth, provider);
 };
-window.login = async () => {
-    try {
-        const result = await signInWithPopup(auth, provider);
-        // هنا السر: استدعِ الدالة بعد نجاح الدخول مباشرة
-        closeLogin(); 
-    } catch (error) {
-        console.error("خطأ:", error);
-    }
-};
 
 /* عند تسجيل الدخول */
-onAuthStateChanged(auth, user => {
-    if (user) {
-        // إذا وجدنا مستخدم، نخفي النافذة فوراً
-        document.getElementById("loginOverlay").style.display = "none";
-        
-        // باقي كود الأفاتار والمطور الخاص بك...
-    }
-});
 onAuthStateChanged(auth, user=>{
   if(!user) return;
   document.querySelector(".login-btn").style.display="none";
@@ -675,42 +545,15 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
         section.style.display = visibleCards ? "block" : (term === "" ? "block" : "none");
     });
 });
-// ... نهاية الأكواد السابقة ...
-
-// هذا الكود يتحقق فور تشغيل السكريبت
-if (localStorage.getItem('hasVisited')) {
-    const overlay = document.getElementById('loginOverlay');
-    if (overlay) overlay.style.display = 'none';
-}
-
-// تأكد أن دالة التحميل موجودة
-window.onload = load;
-</script>
 </script>
 </head>
 
 <body>
-<div id="loginOverlay" class="login-overlay">
-    <div class="login-modal">
-        <div class="login-logo">صناعيتك</div>
-        <p class="login-desc">دليل شامل يجمع ورش وصناعية جازان و المملكة</p>
-        
-        <div class="login-buttons">
-            <button class="login-btn" onclick="login()">تسجيل الدخول</button>
-                
-               
-            
-
-            <button class="secondary-btn" onclick="closeLogin()">المتابعة كزائر</button>
-        
-        <p class="login-footer-text">من خلال الدخول، أنت توافق على شروط الخدمة</p>
-    </div>
-</div>
-
+  
 
 <header>
   <div class="auth-box">
-    
+    <button class="login-btn" onclick="login()">تسجيل الدخول</button>
     <img id="avatar" class="user-avatar">
     <button id="adminBtn" class="admin-btn" onclick="location.href='admin.html'">
       لوحة المطور
