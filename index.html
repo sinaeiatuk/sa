@@ -411,7 +411,82 @@ footer div:last-child {
     letter-spacing: 1px;
     opacity: 0.8;
 }
+/* --- هذا الجزء للجوال فقط ولا يلمس الكمبيوتر نهائياً --- */
+@media screen and (max-width: 768px) {
+    
+    /* 1. منع الصفحة من الهز يمين ويسار */
+    html, body {
+        width: 100vw !important;
+        overflow-x: hidden !important;
+        position: relative !important;
+    }
 
+    /* 2. إصلاح البحث (عشان ما يطلع مقصوص برا الشاشة) */
+    .search-box {
+        width: 90% !important; /* يصغره شوي عشان يترك مسافة من الأطراف */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    
+    .search-box input {
+        width: 100% !important; /* يخليه ياخذ عرض الحاوية بالضبط */
+    }
+
+    /* 3. إصلاح الأقسام (عشان ما تتداخل الكلمات) */
+    .categories {
+        display: flex !important;
+        flex-wrap: nowrap !important; /* يمنعها تنزل تحت بعض وتخرب */
+        overflow-x: auto !important; /* يسمح لك تسحبها بإصبعك يمين ويسار */
+        padding: 10px !important;
+        justify-content: flex-start !important;
+    }
+
+    /* 4. أهم جزء: الورش (الكروت) */
+    .cards {
+        display: flex !important; /* يحولها لصف واحد بدل شبكة تطلع برا */
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important; /* يخليك تسحب الورش زي الستوري */
+        gap: 15px !important;
+        padding: 10px 20px !important;
+    }
+
+    .card {
+        min-width: 85vw !important; /* الكرت الواحد ياخذ 85% من عرض الجوال */
+        max-width: 85vw !important;
+        flex-shrink: 0 !important; /* يمنع الكرت من الانضغاط */
+        height: auto !important; /* يخليه يتمدد حسب المحتوى اللي فيه */
+    }
+}
+/* هذا الكود وظيفته يسحب الكروت الهاربة ويرجعها داخل الجوال */
+@media screen and (max-width: 768px) {
+    
+    /* 1. الحاوية الكبيرة: نمنعها تطلع يمين ويسار */
+    .cards {
+        display: flex !important;
+        flex-wrap: nowrap !important; /* يخليها صف واحد */
+        overflow-x: auto !important; /* يسمح بالسحب الأفقي بدل الخروج عن الإطار */
+        width: 100% !important;
+        padding: 10px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 2. الكرت نفسه: نخليه مرن (Responsive) */
+    .card {
+        /* السر هنا: بدل البكسل الثابت، نستخدم نسبة من عرض الشاشة */
+        min-width: 85vw !important; 
+        max-width: 85vw !important;
+        margin-left: 10px !important;
+        flex-shrink: 0 !important; /* يمنع الكرت من إنه "ينعفط" أو يصغر غصب */
+    }
+
+    /* 3. تأمين نهائي لإطار الموقع */
+    html, body {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+}
 </style>
 
 <script type="module">
