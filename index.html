@@ -708,6 +708,43 @@ footer div:last-child {
 .card:nth-child(2) { animation-delay: 0.2s; }
 .card:nth-child(3) { animation-delay: 0.3s; }
 .card:nth-child(4) { animation-delay: 0.4s; }
+/* إجبار الأزرار على التوسيط والترتيب العمودي */
+#categories {
+    display: flex !important;
+    gap: 15px !important;
+    padding: 10px !important;
+    align-items: center !important;
+}
+
+#categories button {
+    /* تحويل الزر لمحتوى مرن عمودي */
+    display: flex !important;
+    flex-direction: column !important; 
+    align-items: center !important;
+    justify-content: center !important;
+    
+    /* ضبط العرض والطول ليكون مربعاً أو مستطيلاً متناسقاً */
+    min-width: 90px !important;
+    height: 100px !important; 
+    padding: 10px !important;
+    
+    /* شكل الزر الزجاجي */
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px !important;
+    color: white !important;
+    font-size: 14px !important;
+    
+    /* منع التفاف النص */
+    white-space: nowrap !important;
+    cursor: pointer;
+}
+
+/* تكبير الأيقونة قليلاً */
+#categories button span:first-child {
+    font-size: 24px !important;
+    margin-bottom: 5px !important;
+}
 </style>
 
 <script type="module">
