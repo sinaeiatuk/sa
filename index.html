@@ -414,6 +414,27 @@ footer{text-align:center;padding:25px;color:#cbd5f5}
     border: 2px solid var(--accent);
     display: none; /* مخفي افتراضياً */
 }
+@media (max-width: 768px) {
+
+  .cards {
+    display: flex !important;
+    overflow-x: auto;
+    gap: 16px;
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card {
+    min-width: 80%;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+}
+
 </style>
 
 
