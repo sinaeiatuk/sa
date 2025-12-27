@@ -9,11 +9,19 @@
 
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:'Cairo',sans-serif;
-  background:#0f172a;
-  color:#fff;
+body {
+    /* لون داكن موحد كأساس */
+    background-color: #0b0f19; 
+    
+    /* التدرج اللوني مع تثبيته لمنع ظهور فوارق عند التمرير */
+    background: radial-gradient(circle at top right, #1e1b4b 0%, #0b0f19 70%);
+    background-attachment: fixed; /* هذا السطر يخلي الخلفية ثابتة ما تتحرك مع السكرول */
+    
+    color: #f8fafc;
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden; /* يمنع ظهور شريط سحب عرضي يخرب اللون */
 }
 .container{
   max-width:900px;

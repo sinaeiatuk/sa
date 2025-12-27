@@ -8,231 +8,508 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
- .skeleton{
-  background:#e5e7eb;
-  border-radius:16px;
-  overflow:hidden;
-  position:relative;
+  .google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: white; /* جوجل يفضل خلفية بيضاء لزره الرسمي */
+    color: #1f2937;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.skeleton::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-100%;
-  width:100%;
-  height:100%;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.6),
-    transparent
-  );
-  animation: shimmer 1.2s infinite;
+.google-btn img {
+    width: 22px;
+    height: 22px;
 }
 
-@keyframes shimmer{
-  100%{left:100%}
+.google-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+    background: #f8fafc;
 }
 
-.skeleton-img{
-  height:160px;
-  background:#d1d5db;
+.login-footer-text {
+    margin-top: 25px;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+.login-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 15, 25, 0.9); /* نفس لون خلفية الـ body */
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
 }
 
-.skeleton-text{
-  height:14px;
-  margin:14px;
-  background:#d1d5db;
-  border-radius:6px;
+.login-modal {
+    background: rgba(255, 255, 255, 0.03); /* نفس نظام الكروت */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 50px 30px;
+    border-radius: 30px;
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+}
+
+.login-logo {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #fff, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+}
+
+.login-desc {
+    color: #94a3b8;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+.login-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* زر تسجيل الدخول - نفس ستايل أزرار الموقع */
+.primary-btn {
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    color: white;
+    padding: 18px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+}
+
+/* زر الزائر - ستايل زجاجي ناعم */
+.secondary-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    padding: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.primary-btn:hover, .secondary-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.2);
+}
+:root {
+    --primary-bg: #0b0f19;
+    --accent: #6366f1;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background: radial-gradient(circle at top right, #1e1b4b, #0b0f19);
+    color: #f8fafc;
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    overflow-x: hidden;
+}
+
+/* --- الهيدر الفخم --- */
+header {
+    background: transparent; /* خله شفاف عشان ما يغطي على البحث */
+    backdrop-filter: none;
+    border-bottom: none;
+    position: relative; /* يخليه يرتفع مع السكرول عادي */
+    padding: 20px 0;
+    z-index: 10;
+}
+/* حاوية التصنيفات لتكون في المنتصف وبشكل أنيق */
+.categories-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 25px 0;
+    direction: rtl;
+}
+
+/* تصميم شريط الأقسام الداكن (نفس ستايل الفيديو) */
+.categories {
+    display: flex;
+    gap: 8px;
+    background: rgba(15, 23, 42, 0.8); /* لون داكن عميق */
+    padding: 8px 15px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+/* تصميم الأزرار الفردية */
+.categories button {
+    background: rgba(30, 41, 59, 0.7); /* أفتح قليلاً من الخلفية */
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+/* تأثير التمرير (Hover) بنفس روح الفيديو */
+.categories button:hover {
+    background: #6366f1; /* اللون البنفسجي/الأزرق المميز */
+    border-color: #818cf8;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* تنسيق الأيقونات داخل الأزرار */
+.categories button i, 
+.categories button span {
+    font-size: 18px;
+}
+/* --- توسيط عناوين الموقع ووصفه --- */
+header h1 {
+    text-align: center;
+    font-size: 2.8rem;
+    margin: 20px 0 10px;
+    width: 100%; /* يضمن أنه يأخذ كامل العرض ليتوسط */
+    background: linear-gradient(to bottom, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    text-align: center;
+    color: #94a3b8;
+    max-width: 600px;
+    margin: 0 auto 30px; /* الـ auto هنا هي اللي بتوسطه في النص */
+    line-height: 1.6;
+}
+
+/* --- توسيط عناوين الأقسام (مثل ورش السيارات) --- */
+.section h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    position: relative;
+    border-right: none; /* شلت الخط الجانبي عشان التوسط */
+}
+
+/* إضافة خط تحت عنوان القسم ليعطي شكل جمالي متوسط */
+.section h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+/* --- التأكد من توسيط حاوية الأزرار --- */
+.categories-wrapper {
+    display: flex;
+    justify-content: center; /* يوسط شريط الأزرار بالكامل */
+    width: 100%;
+    margin: 30px 0;
+}
+
+/* --- تعديل بسيط لضمان توسيط النصوص داخل الكارد أيضاً --- */
+.card {
+    text-align: center;
+}
+
+.card-title {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    margin: 0;
+    padding: 6px 14px; /* مساحة داخلية حول الاسم */
+    font-size: 1.1rem;
+    color: white;
+    z-index: 5;
+    
+    /* تأثير الضباب (Glassmorphism) خلف النص */
+    background: rgba(0, 0, 0, 0.3); /* لون أسود خفيف جداً */
+    backdrop-filter: blur(3px);    /* تأثير التغبيش أو الضباب */
+    -webkit-backdrop-filter: blur(8px); /* لدعم متصفحات آبل */
+    
+    border-radius: 10px;           /* حواف ناعمة للخلفية الضبابية */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* حدود خفيفة تزيد الفخامة */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* ظل للنص نفسه */
+}
+/* أسهم التنقل الجانبية */
+.categories-wrapper .arrow {
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.categories-wrapper .arrow:hover {
+    background: #6366f1;
+}
+
+.auth-box {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-controls { display: flex; align-items: center; gap: 12px; }
+
+/* زر لوحة المطور - يتم التحكم بظهوره عبر JS */
+.admin-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border: 1px solid var(--glass-border);
+    padding: 8px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    display: none; /* مخفي افتراضياً */
+}
+
+.user-avatar { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--accent); display: none; }
+
+.login-btn {
+    background: linear-gradient(90deg, #6366f1, #a855f7);
+    border: none; padding: 10px 25px; border-radius: 12px;
+    color: white; font-weight: 700; cursor: pointer;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+/* --- نظام الكروت (الكمبيوتر شبكة والجوال سحب) --- */
+.container { width: 90%; max-width: 1200px; margin: 40px auto; }
+.cards {
+    display: grid;
+    /* حددنا عرض الكارد بـ 300px فقط ليكون أنيقاً */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 320px)); 
+    gap: 25px;
+    justify-content: center; /* يوسط الكروت في منتصف الشاشة */
+    padding: 20px;
+    width: 95%;
+    margin: 0 auto;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+    overflow: visible !important;
+}
+
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 420px; /* ارتفاع ثابت ومناسب */
+    width: 100%; /* يأخذ عرض الـ Grid المكتوب فوق */
+    transition: 0.3s;
+}
+.card:hover .card-cover-wrap img {
+    transform: scale(1.1); /* تكبير بنسبة 10% */
+}
+.card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent);
+    box-shadow: 0 20px 50px rgba(99, 102, 241, 0.2);
+}
+
+.card-cover-wrap {
+    width: 100%;
+    height: 50%; /* تأخذ نصف الكارد بالضبط */
+    overflow: hidden;
+    position: relative;
+}
+.card-cover-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* يمنع تمطط الصورة */
+    transition: 0.5s ease;
+}
+.card-content {
+    padding: 15px;
+    height: 50%; /* تأخذ النصف الثاني */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* توزيع النص فوق والتواصل تحت */
 }
 
 
 
-  
-/* ===== تسجيل الدخول ===== */
-.auth-box{
-  position:absolute;
-  top:20px;
-  left:20px;
-  display:flex;
-  align-items:center;
-  gap:10px;
+.card p {
+    padding: 15px;
+    color: #94a3b8;
+    font-size: 0.85rem; /* تصغير الخط قليلاً */
+    line-height: 1.5;
+    text-align: right;
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* يظهر 4 أسطر فقط ويمنع تمدد الكارد */
+    -webkit-box-orient: vertical;
 }
 
-.login-btn{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.4);
-  color:#fff;
-  padding:8px 16px;
-  border-radius:12px;
-  cursor:pointer;
-  transition:.3s;
-  font-family:'Cairo',sans-serif;
-}
-.login-btn:hover{background:rgba(255,255,255,.15)}
-
-.user-avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  border:2px solid rgba(255,255,255,.4);
-  cursor:pointer;
-  display:none;
+/* تأكد أيضاً أن عنوان الورشة في النص */
+header h1, header p, .section h2 {
+    text-align: center;
+    width: 100%;
 }
 
-.admin-btn{
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  padding:6px 14px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:14px;
-  display:none;
-}
-.admin-btn:hover{background:#1d4ed8}
-
-/* ===== باقي الستايل (ما تغير) ===== */
-:root{
-  --accent:#2563eb;
-  --card:#ffffff;
-  --text:#1e293b;
-  --muted:#64748b;
-  --star:#facc15;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:'Cairo',sans-serif;
-  background:linear-gradient(135deg,#0f172a,#1e293b);
-  color:#fff;
-}
-header{text-align:center;padding:40px 20px}
-header p{color:#cbd5f5}
-.search-box{max-width:500px;margin:30px auto}
-.search-box input{width:100%;padding:14px;border-radius:12px;border:none}
-
-/* الأقسام */
-.categories-wrapper{
-  display:flex;align-items:center;justify-content:center;gap:10px;margin:25px 0;
-}
-.categories{
-  display:flex;gap:30px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;
-}
-.categories::-webkit-scrollbar{display:none}
-.categories button{
-  background:none;border:none;color:#e5e7eb;font-size:16px;font-weight:600;cursor:pointer;
-}
-.categories button:hover{color:#fff}
-.arrow{background:none;border:none;color:#cbd5f5;font-size:28px;cursor:pointer}
-.container{width:90%;max-width:1200px;margin:40px auto}
-.section{margin-bottom:60px}
-.section h2{border-right:6px solid var(--accent);padding-right:15px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
-.card{
-  background:#fff;color:var(--text);border-radius:16px;padding:22px;
-  box-shadow:0 15px 35px rgba(0,0,0,.2);
-}
-.card{
-  position:relative;
-  overflow:hidden;
-}
-.whatsapp-float{
-  position:absolute;
-  bottom:14px;
-  left:14px;
-  width:46px;
-  height:46px;
-  background:#25D366;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  font-size:22px;
-  text-decoration:none;
-  box-shadow:0 8px 20px rgba(37,211,102,.5);
-  transition:.3s;
-  z-index:5;
+/* أيقونة الواتساب الخضراء */
+.whatsapp-float {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    width: 45px;
+    height: 45px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px;
+    text-decoration: none;
+    z-index: 5;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
-.whatsapp-float:hover{
-  transform:scale(1.12);
-  box-shadow:0 12px 30px rgba(37,211,102,.8);
+/* تحويل الشبكة لسحب أفقي في الجوال فقط */
+@media (max-width: 768px) {
+    .cards {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 15px;
+        padding: 20px 10px;
+        scrollbar-width: none;
+    }
+    .cards::-webkit-scrollbar { display: none; }
+    .card {
+        min-width: 85%;
+        flex-shrink: 0;
+        scroll-snap-align: center;
+    }
 }
 
-
-
-.card:hover{transform:translateY(-6px)}
-.support{
-  margin:30px auto;background:linear-gradient(135deg,#22c55e,#16a34a);
-  padding:14px 30px;border-radius:16px;width:max-content;
-}
-.support a{color:#fff;text-decoration:none;font-weight:700}
-footer{text-align:center;padding:25px;color:#cbd5f5}
-.card{
-  overflow:hidden;
+.search-box {
+    position: sticky;
+    top: 10px; /* المسافة من فوق لما يثبت */
+    z-index: 2000; /* عشان يكون فوق الكروت */
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
 }
 
-.card-cover{
-  width:calc(100% + 44px);
-  height:160px;
-  margin:-22px -22px 15px -22px;
+.search-box input {
+    background: rgba(15, 23, 42, 0.9); /* خلفية داكنة عشان يبان فوق الكروت */
+    backdrop-filter: blur(15px); /* تأثير ضبابي فخم وهو نازل */
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 15px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* ظل عشان ينفصل عن المحتوى خلفه */
+    outline: none;
+}
+footer {
+    background: rgba(15, 23, 42, 0.8); /* خلفية داكنة فخمة */
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 40px 20px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column; /* ترتيب العناصر تحت بعض */
+    align-items: center;    /* توسيط العناصر في المنتصف */
+    justify-content: center;
+    gap: 20px;              /* مسافة بين قسم الدعم وحقوق الحفظ */
+    text-align: center;
 }
 
-
-.card-cover img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-top-left-radius:16px;
-  border-top-right-radius:16px;
-}
-/* ===== صورة العرض المتقدمة ===== */
-.card-cover-wrap{
-  position:relative;
-  overflow:hidden;
-  border-radius:16px 16px 0 0;
-  margin:-22px -22px 15px -22px;
+/* تنسيق قسم الدعم الفني */
+.support {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.1rem;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
 }
 
-.card-cover-wrap img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  transition:transform .6s ease;
+.support:hover {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: #6366f1;
 }
 
-/* Gradient */
-.card-cover-wrap::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    to top,
-    rgba(0,0,0,.55),
-    rgba(0,0,0,.15),
-    transparent
-  );
+/* تنسيق رابط الرقم */
+.support a {
+    color: #6366f1; /* لون النيون الفخم */
+    text-decoration: none;
+    font-weight: 700;
+    font-family: sans-serif; /* لظهور الأرقام بشكل أوضح */
+    letter-spacing: 1px;
+    transition: 0.3s;
 }
 
-/* اسم الورشة */
-.card-title{
-  position:absolute;
-  bottom:14px;
-  right:16px;
-  left:16px;
-  color:#fff;
-  font-size:18px;
-  font-weight:700;
-  z-index:2;
-  text-shadow:0 4px 15px rgba(0,0,0,.6);
+.support a:hover {
+    color: #a855f7; /* يتغير للبنفسجي عند التمرير */
+    text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
 }
 
-/* Hover زوم */
-.card:hover .card-cover-wrap img{
-  transform:scale(1.08);
+/* تنسيق حقوق النشر (صناعيتك) */
+footer div:last-child {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    opacity: 0.8;
 }
 
 </style>
@@ -285,10 +562,7 @@ onAuthStateChanged(auth, user=>{
 
 /* تحميل الورش */
 async function load(){
- carsCards.innerHTML =
-metalCards.innerHTML =
-sofaCards.innerHTML =
-aluminumCards.innerHTML =
+
 Array(4).fill(`
   <div class="card skeleton">
     <div class="skeleton-img"></div>
@@ -342,15 +616,61 @@ window.scrollCats=v=>{
   document.getElementById("categories").scrollBy({left:v,behavior:"smooth"});
   
 };
+// --- ضع هذا الكود خارج دالة الـ load في الأسفل ---
 
+// هذا الكود يراقب ما تكتبه في خانة البحث
+document.getElementById('searchInput').addEventListener('input', function(e) {
+    // 1. تحويل النص المكتوب لأسفل الحروف لضمان دقة البحث
+    const term = e.target.value.toLowerCase().trim();
+    
+    // 2. الحصول على جميع الكروت التي تم إنشاؤها بواسطة دالة load
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        // البحث داخل العنوان (اسم الورشة) والبارقراف (الوصف)
+        const title = card.querySelector('.card-title')?.innerText.toLowerCase() || "";
+        const desc = card.querySelector('p')?.innerText.toLowerCase() || "";
+
+        // 3. التحقق مما إذا كان النص المكتوب موجوداً في أي منهما
+        if (title.includes(term) || desc.includes(term)) {
+            card.style.display = "flex"; // أظهر الكرت
+        } else {
+            card.style.display = "none"; // أخفِ الكرت
+        }
+    });
+
+    // 4. (اختياري) إخفاء العناوين الرئيسية للأقسام إذا لم تكن هناك نتائج
+    document.querySelectorAll('.section').forEach(section => {
+        const visibleCards = Array.from(section.querySelectorAll('.card')).some(c => c.style.display !== 'none');
+        section.style.display = visibleCards ? "block" : (term === "" ? "block" : "none");
+    });
+});
 </script>
 </head>
 
 <body>
+<div id="loginOverlay" class="login-overlay">
+    <div class="login-modal">
+        <div class="login-logo">صناعيتك</div>
+        <p class="login-desc">دليل شامل يجمع ورش وصناعية جازان و المملكة</p>
+        
+        <div class="login-buttons">
+            <button class="login-btn" onclick="login()">تسجيل الدخول</button>
+                
+               
+            
+
+            <button class="secondary-btn" onclick="closeLogin()">المتابعة كزائر</button>
+        </div>
+        
+        <p class="login-footer-text">من خلال الدخول، أنت توافق على شروط الخدمة</p>
+    </div>
+</div>
+
 
 <header>
   <div class="auth-box">
-    <button class="login-btn" onclick="login()">تسجيل الدخول</button>
+    
     <img id="avatar" class="user-avatar">
     <button id="adminBtn" class="admin-btn" onclick="location.href='admin.html'">
       لوحة المطور
@@ -371,9 +691,9 @@ window.scrollCats=v=>{
     <button class="arrow" onclick="scrollCats(-200)">›</button>
   </div>
 
-  <div class="search-box">
-    <input placeholder="🔍 ابحث">
-  </div>
+<div class="search-box">
+  <input id="searchInput" placeholder="🔍 ابحث عن اسم الورشة">
+</div>
 </header>
 
 <div class="container">
