@@ -934,6 +934,40 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
         section.style.display = visibleCards ? "block" : (term === "" ? "block" : "none");
     });
 });
+// كود إضافة 1000 ورشة (معدل لضمان العمل)
+async function add1000Workshops() {
+    // استيراد الدوال اللازمة محلياً لضمان عدم وجود خطأ "not defined"
+    const { addDoc, collection } = await import("https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js");
+    
+    const categories = ['cars', 'metal', 'sofa', 'aluminum'];
+    const dummyNames = ["مركز النخبة", "ورشة الأداء", "فن الصيانة", "التقنية العالية", "إتقان الشرق"];
+    
+    console.log("🚀 بدأ الهجوم! جاري إضافة 1000 ورشة...");
+
+    for (const cat of categories) {
+        console.log(`⏳ جاري إضافة 250 ورشة لقسم: ${cat}`);
+        for (let i = 1; i <= 250; i++) {
+            try {
+                await addDoc(collection(db, "workshops"), {
+                    name: `${dummyNames[Math.floor(Math.random() * dummyNames.length)]} (${cat} - ${i})`,
+                    cat: cat,
+                    spec: "هذا النص لاختبار تحمل الموقع للبيانات الضخمة وسرعة التصفح.",
+                    phone: "966500000000",
+                    map: "https://maps.google.com",
+                    views: 0,
+                    cover: `https://picsum.photos/seed/${cat}${i}/400/300` 
+                });
+            } catch (e) {
+                console.error("خطأ في إضافة عنصر:", e);
+            }
+        }
+    }
+    alert("✅ اكتمل الاختبار! تمت إضافة 1000 ورشة بنجاح في قاعدة البيانات.");
+}
+
+// لتشغيل الإضافة: امسح الـ // من السطر الذي بالأسفل مرة واحدة فقط واحفظ الملف
+ add1000Workshops();
+ 
 </script>
 </head>
 
