@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <meta property="og:image" content="https://snactuk.github.io/sa/img/LOGOAPP.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="300">
+<meta property="og:image:height" content="300">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>تفاصيل الورشة</title>
@@ -301,27 +305,26 @@ slides.addEventListener("touchend",e=>{
   if(diff<-50 && index>0) go(index-1);
 });
 document.getElementById("share-btn").onclick = async () => {
-    // جلب بيانات الورشة من المتغير w الموجود أصلاً في كودك
-    const title = "ورشة " + document.getElementById("name").innerText;
-    const text = "شاهد تفاصيل هذه الورشة عبر موقع صناعيتك:";
-    const url = window.location.href;
+    // جلب البيانات مباشرة من المتغير w المحمل من Firebase
+    const workshopName = document.getElementById("name").innerText || w.name;
+    const shareData = {
+        title: `ورشة ${workshopName}`,
+        text: `لقد وجدت ورشة "${workshopName}" عبر موقع صناعيتك - جازان:`,
+        url: window.location.href
+    };
 
     if (navigator.share) {
         try {
-            await navigator.share({ title, text, url });
+            await navigator.share(shareData);
         } catch (err) {
             console.log("تم إلغاء المشاركة");
         }
     } else {
-        // إذا كان المستخدم على كمبيوتر أو متصفح قديم، ينسخ الرابط تلقائياً
-        try {
-            await navigator.clipboard.writeText(`${text} \n ${url}`);
-            alert("تم نسخ رابط الورشة بنجاح لمشاركته!");
-        } catch (copyErr) {
-            alert("رابط الورشة هو: " + url);
-        }
+        navigator.clipboard.writeText(`${shareData.text} \n ${shareData.url}`);
+        alert("تم نسخ الرابط والاسم بنجاح!");
     }
 };
+
 </script>
 </body>
 </html>
