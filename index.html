@@ -764,6 +764,24 @@ footer div:last-child {
     /* إضافة هالة ضوئية خلف اللوجو ليبرز فوق الخلفية الداكنة */
     filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
 }
+/* تعديل التصنيفات للجوالات (أقل من 500 بكسل) */
+@media screen and (max-width: 500px) {
+    #categories button {
+        min-width: 75px !important;  /* تصغير العرض الأدنى قليلاً */
+        padding: 10px 5px !important; /* تقليل الحشو الداخلي */
+        gap: 5px !important;          /* تقليل المسافة بين الأيقونة والنص */
+    }
+
+    #categories button span {
+        font-size: 0.75rem !important; /* تصغير حجم الخط ليتناسب مع المساحة */
+        white-space: nowrap;           /* يمنع النص من النزول لسطر ثاني */
+    }
+
+    #categories button i, 
+    #categories button span:first-child {
+        font-size: 1.2rem !important; /* تصغير الأيقونة قليلاً أيضاً */
+    }
+}
 </style>
 
 <script type="module">
