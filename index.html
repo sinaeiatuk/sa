@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <link rel="manifest" href="manifest.json">
     <meta name="google-site-verification" content="YBK8NeLzzw1W6P2s1vC77hX5mR8g76K6w98PBybz8b0" />
     <meta name="apple-mobile-web-app-title" content="صناعيتك">
 <meta name="application-name" content="صناعيتك">
@@ -504,7 +505,7 @@ footer div:last-child {
     }
 
     .card {
-        min-width: 85vw !important; /* الكرت الواحد ياخذ 85% من عرض الجوال */
+        min-width: 90vw !important; /* الكرت الواحد ياخذ 85% من عرض الجوال */
         max-width: 85vw !important;
         flex-shrink: 0 !important; /* يمنع الكرت من الانضغاط */
         height: auto !important; /* يخليه يتمدد حسب المحتوى اللي فيه */
@@ -792,6 +793,7 @@ footer div:last-child {
         margin-bottom: 5px !important;
     }
 }
+
 </style>
 
 <script type="module">
@@ -999,6 +1001,10 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
   </div>
   <div>  صناعيتك | © 2025</div>
 </footer>
-
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
 </body>
 </html>
