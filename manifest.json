@@ -1,7 +1,7 @@
 {
   "name": "صناعيتك - دليل الورش",
   "short_name": "صناعيتك",
-  "start_url": "/index.html",
+  "start_url": "/sa/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
