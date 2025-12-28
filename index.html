@@ -934,24 +934,7 @@ document.getElementById('searchInput').addEventListener('input', function(e) {
         section.style.display = visibleCards ? "block" : (term === "" ? "block" : "none");
     });
 });
-// كود الطوارئ لمسح كل الورش إذا لم تجدها في الكونسول
-(async function deleteEverything() {
-    const { getDocs, collection, deleteDoc, doc } = await import("https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js");
-    
-    console.log("🧹 جاري البحث عن الورش لحذفها...");
-    const querySnapshot = await getDocs(collection(db, "workshops"));
-    
-    if (querySnapshot.empty) {
-        console.log("✅ الموقع نظيف تماماً، لا توجد بيانات.");
-        return;
-    }
 
-    const promises = querySnapshot.docs.map(d => deleteDoc(doc(db, "workshops", d.id)));
-    await Promise.all(promises);
-    
-    alert("✅ تم مسح الـ 1000 ورشة بنجاح! الآن احذف هذا الكود فوراً من ملفك.");
-    location.reload();
-})();
 </script>
 </head>
 
