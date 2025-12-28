@@ -168,7 +168,34 @@ h1 {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+.ios-share-btn {
+    position: absolute;
+    /* عدل القيم هنا لتناسب مكان الدائرة الحمراء */
+    top: 20px; 
+    left: 20px; 
+    
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #ffffff;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
 
+/* لمنع التداخل مع زر الرجوع في الشاشات الصغيرة */
+@media (max-width: 768px) {
+    .ios-share-btn {
+        top: 20px;
+        left: 15px;
+    }
+}
 </style>
 </head>
 
@@ -182,6 +209,13 @@ h1 {
     </div>
 <div class="container">
   <a class="back" href="index.html">← رجوع</a>
+    <button id="share-btn" class="ios-share-btn">
+    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+        <polyline points="16 6 12 2 8 6"></polyline>
+        <line x1="12" y1="2" x2="12" y2="15"></line>
+    </svg>
+</button>
 
   <h1 id="name"></h1>
   <div class="desc" id="spec"></div>
@@ -266,6 +300,28 @@ slides.addEventListener("touchend",e=>{
   if(diff>50 && index<slides.children.length-1) go(index+1);
   if(diff<-50 && index>0) go(index-1);
 });
+document.getElementById("share-btn").onclick = async () => {
+    // جلب بيانات الورشة من المتغير w الموجود أصلاً في كودك
+    const title = "ورشة " + document.getElementById("name").innerText;
+    const text = "شاهد تفاصيل هذه الورشة عبر موقع صناعيتك:";
+    const url = window.location.href;
+
+    if (navigator.share) {
+        try {
+            await navigator.share({ title, text, url });
+        } catch (err) {
+            console.log("تم إلغاء المشاركة");
+        }
+    } else {
+        // إذا كان المستخدم على كمبيوتر أو متصفح قديم، ينسخ الرابط تلقائياً
+        try {
+            await navigator.clipboard.writeText(`${text} \n ${url}`);
+            alert("تم نسخ رابط الورشة بنجاح لمشاركته!");
+        } catch (copyErr) {
+            alert("رابط الورشة هو: " + url);
+        }
+    }
+};
 </script>
 </body>
 </html>
