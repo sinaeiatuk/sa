@@ -523,8 +523,9 @@ if(searchInput) {
         });
     });
 }
-    /* --- نظام الشات المباشر (User Side) --- */
-import { addDoc, query, orderBy, onSnapshot, serverTimestamp, limit } 
+/* --- نظام الشات المباشر (User Side) --- */
+// ✅ التصحيح هنا: أضفنا collection للقائمة
+import { addDoc, collection, query, orderBy, onSnapshot, serverTimestamp, limit } 
 from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 
 let chatUnsubscribe = null;
@@ -536,22 +537,24 @@ window.toggleChat = () => {
     const isHidden = chat.style.display === 'none' || chat.style.display === '';
     chat.style.display = isHidden ? 'flex' : 'none';
     
-    // إذا فتح الشات، نبدأ الاستماع للرسائل
-    if (isHidden && auth.currentUser) {
-        startChatListener(auth.currentUser.uid);
-    } else if (isHidden && !auth.currentUser) {
-        // إذا مو مسجل دخول، نطلب منه يسجل (أو نخليه Guest حسب رغبتك)
-        alert("يرجى تسجيل الدخول أولاً للتحدث مع الدعم الفني");
-        login(); // نفتح له نافذة الدخول
+    // تأكدنا أن المستخدم مسجل دخول
+    if (auth.currentUser) {
+        if (isHidden) startChatListener(auth.currentUser.uid);
+    } else {
+        // إذا فتح الشات وهو مو مسجل، نطلب منه يسجل
+        if (isHidden) {
+            alert("يرجى تسجيل الدخول أولاً للتحدث معنا");
+            login();
+        }
     }
 };
 
-// الاستماع للرسائل في الوقت الفعلي
+// الاستماع للرسائل
 function startChatListener(uid) {
     currentUserId = uid;
-    if (chatUnsubscribe) chatUnsubscribe(); // إيقاف الاستماع السابق لتجنب التكرار
+    if (chatUnsubscribe) chatUnsubscribe(); // إيقاف الاستماع القديم
 
-    // نجيب الرسائل الخاصة بهذا المستخدم
+    // جلب الرسائل من قاعدة البيانات
     const q = query(
         collection(db, `support_chats/${uid}/messages`), 
         orderBy("createdAt", "asc")
@@ -559,46 +562,47 @@ function startChatListener(uid) {
 
     chatUnsubscribe = onSnapshot(q, (snapshot) => {
         const chatBody = document.getElementById('chatBody');
-        chatBody.innerHTML = ''; // تنظيف الشات
-        
-        // رسالة ترحيبية دائمة
-        chatBody.innerHTML += `<div class="chat-msg msg-admin">مرحباً بك في صناعيتك! 👋<br>كيف نقدر نخدمك اليوم؟</div>`;
+        // نحفظ الرسالة الترحيبية عشان ما تنحذف مع التحديث
+        chatBody.innerHTML = `<div class="chat-msg msg-admin">مرحباً بك في صناعيتك! 👋<br>كيف نقدر نخدمك اليوم؟</div>`;
 
         snapshot.forEach((doc) => {
             const msg = doc.data();
             const div = document.createElement('div');
+            // تحديد لون الرسالة (أنا ولا الدعم)
             div.className = `chat-msg ${msg.sender === 'user' ? 'msg-user' : 'msg-admin'}`;
             div.innerText = msg.text;
             chatBody.appendChild(div);
         });
         
-        // نزول تلقائي لآخر رسالة
+        // النزول لآخر رسالة تلقائياً
         chatBody.scrollTop = chatBody.scrollHeight;
     });
 }
 
-// إرسال رسالة
+// إرسال الرسالة
 window.sendMessage = async () => {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
-    if (!text || !auth.currentUser) return;
+    
+    // حماية: لا ترسل إذا النص فاضي أو المستخدم مو مسجل
+    if (!text) return;
+    if (!auth.currentUser) {
+        alert("يرجى تسجيل الدخول للإرسال");
+        return;
+    }
 
-    input.value = ''; // تفريغ الحقل
+    input.value = ''; // مسح الحقل فوراً عشان يحس بالسرعة
 
     try {
-        // 1. إضافة الرسالة في مجموعة الرسائل
+        // إرسال لفايربيس
         await addDoc(collection(db, `support_chats/${auth.currentUser.uid}/messages`), {
             text: text,
-            sender: 'user', // المرسل هو العميل
+            sender: 'user', // أنا العميل
             createdAt: serverTimestamp()
         });
-
-        // 2. تحديث "ملخص المحادثة" عشان يظهر عند الأدمين في القائمة
-        // (سنحتاج هذي الخطوة عشان صفحة الأدمين تعرف إن فيه رسالة جديدة)
-        // هذا مجرد تجهيز للمستقبل، حالياً يكفي تخزين الرسالة
-        
     } catch (e) {
-        console.error("Error sending message:", e);
+        console.error("خطأ في الإرسال:", e);
+        alert("حدث خطأ في الإرسال، تأكد من الإنترنت");
     }
 };
 
@@ -606,16 +610,17 @@ window.handleEnter = (e) => {
     if (e.key === 'Enter') sendMessage();
 };
 
-// تشغيل الشات تلقائياً إذا سجل الدخول
+// مراقبة حالة الدخول لتشغيل الشات
 onAuthStateChanged(auth, user => {
     if (user) {
-        // إذا كان الشات مفتوح، ابدأ الاستماع
+        // لو المستخدم كان فاتح الشات، شغل له الرسايل
         const chat = document.getElementById('chatWindow');
         if (chat.style.display === 'flex') {
             startChatListener(user.uid);
         }
     }
 });
+
 
 </script>
 </head>
@@ -705,4 +710,5 @@ onAuthStateChanged(auth, user => {
 </script>
 </body>
 </html>
+
 
