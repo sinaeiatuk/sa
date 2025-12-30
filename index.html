@@ -452,6 +452,7 @@ import { getFirestore, collection, getDocs, addDoc, query, orderBy, onSnapshot, 
 
 
 
+
 // 2. إعدادات Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBdhesRwD2eiDvqqcMGhC59U4whICwTO3E",
@@ -635,28 +636,28 @@ window.sendMessage = async () => {
         return;
     }
 
-    input.value = ''; 
+    input.value = ''; // مسح الخانة
 
     try {
         const userId = auth.currentUser.uid;
 
-        // 1. حفظ الرسالة داخل المحادثة (نفس السابق)
+        // 1. إضافة الرسالة للشات
         await addDoc(collection(db, `support_chats/${userId}/messages`), {
             text: text,
             sender: 'user',
             createdAt: serverTimestamp()
         });
 
-        // 2. 🔥 (الجديد) تحديث "غلاف" المحادثة ليظهر للأدمن
-        // هذا السطر مهم جداً: هو اللي بيخلي اسم العميل يطلع في لوحة الأدمن
+        // 2. تحديث بيانات العميل الرئيسية (عشان يشوفها الأدمن)
+        // هذا الجزء كان يسبب مشاكل إذا الاستيراد فوق غلط
         await setDoc(doc(db, "support_chats", userId), {
             clientName: auth.currentUser.displayName || "عميل مجهول",
             lastMessage: text,
             lastUpdated: serverTimestamp(),
-            clientId: userId // نحفظ الايدي عشان الأدمن يستخدمه
+            clientId: userId
         }, { merge: true });
 
-        // 3. إرسال الإيميل (كما هو)
+        // 3. إرسال تنبيه بالإيميل
         const emailParams = {
             from_name: auth.currentUser.displayName || "عميل",
             message: text,
@@ -665,13 +666,15 @@ window.sendMessage = async () => {
         emailjs.send("service_7qf2s7o", "template_mtxq4qb", emailParams, "yTcwphC0s254t2MYr")
             .catch((err) => console.error('فشل الإيميل:', err));
 
-        // الرد التلقائي (كما هو)
-        // ... (بقيت كود الرد التلقائي خليه زي ما هو) ...
+        // الرد التلقائي (اختياري - خليه زي ما كان عندك)
 
     } catch (e) {
-        console.error("خطأ:", e);
+        console.error("خطأ في الإرسال:", e);
+        // هذا التنبيه بيعلمك إذا فيه مشكلة
+        alert("حدث خطأ: " + e.message); 
     }
 };
+
 
 
 
@@ -801,6 +804,7 @@ window.deleteChat = async () => {
 </script>
 </body>
 </html>
+
 
 
 
