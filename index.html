@@ -16,7 +16,7 @@
 
 <style>
     /* -----------------------------------------------------------
-       قسم التنسيق (CSS) - أعدته كما كان في ملفك الأصلي تماماً
+       قسم التنسيق (CSS) - هذا هو تصميمك الأصلي بدون أي تغيير
        ----------------------------------------------------------- */
     :root {
         --primary-bg: #0b0f19;
@@ -186,7 +186,7 @@
 
 <script type="module">
 /* -----------------------------------------------------------
-   التحسينات البرمجية - تطبيق نصائح الأداء النظيف
+   التحسينات البرمجية - هنا فقط قمت بالتعديل لتحسين الأداء
    ----------------------------------------------------------- */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
@@ -227,7 +227,7 @@ async function loadWorkshops() {
             card.className = "card";
             card.onclick = () => location.href = "details.html?id=" + d.id;
             
-            // إضافة loading="lazy" لتحسين الأداء وتوفير الموارد
+            // هنا التعديل الوحيد: إضافة loading="lazy"
             card.innerHTML = `
                 <div class="card-cover-wrap">
                     <img src="${w.cover}" loading="lazy" alt="${w.name}">
@@ -254,7 +254,7 @@ async function loadWorkshops() {
 window.onload = loadWorkshops;
 window.goTo = id => document.getElementById(id)?.scrollIntoView({behavior: "smooth"});
 
-// تحسين البحث ليكون أسرع وأقل استهلاكاً للموارد
+// تحسين البحث ليكون أسرع
 document.getElementById('searchInput').addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase().trim();
     const cards = document.querySelectorAll('.card');
@@ -268,4 +268,3 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
 </script>
 </body>
 </html>
-
