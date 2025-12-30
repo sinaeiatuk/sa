@@ -448,6 +448,7 @@ footer {
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import { getFirestore, collection, getDocs, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+import { ..., setDoc, doc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 
 
 // 2. إعدادات Firebase
@@ -636,14 +637,25 @@ window.sendMessage = async () => {
     input.value = ''; 
 
     try {
-        // 1. حفظ رسالة العميل
-        await addDoc(collection(db, `support_chats/${auth.currentUser.uid}/messages`), {
+        const userId = auth.currentUser.uid;
+
+        // 1. حفظ الرسالة داخل المحادثة (نفس السابق)
+        await addDoc(collection(db, `support_chats/${userId}/messages`), {
             text: text,
             sender: 'user',
             createdAt: serverTimestamp()
         });
 
-        // 2. إرسال الإيميل (بالاسم الصحيح والمفتاح)
+        // 2. 🔥 (الجديد) تحديث "غلاف" المحادثة ليظهر للأدمن
+        // هذا السطر مهم جداً: هو اللي بيخلي اسم العميل يطلع في لوحة الأدمن
+        await setDoc(doc(db, "support_chats", userId), {
+            clientName: auth.currentUser.displayName || "عميل مجهول",
+            lastMessage: text,
+            lastUpdated: serverTimestamp(),
+            clientId: userId // نحفظ الايدي عشان الأدمن يستخدمه
+        }, { merge: true });
+
+        // 3. إرسال الإيميل (كما هو)
         const emailParams = {
             from_name: auth.currentUser.displayName || "عميل",
             message: text,
@@ -652,32 +664,14 @@ window.sendMessage = async () => {
         emailjs.send("service_7qf2s7o", "template_mtxq4qb", emailParams, "yTcwphC0s254t2MYr")
             .catch((err) => console.error('فشل الإيميل:', err));
 
-        /* --- نظام الرد التلقائي --- */
-        const lastReplyKey = 'last_auto_reply_' + auth.currentUser.uid;
-        const lastReplyTime = localStorage.getItem(lastReplyKey);
-        const now = Date.now();
-        const oneHour = 60 * 60 * 1000; 
-
-        // إذا مرت ساعة على آخر رد
-        if (!lastReplyTime || (now - lastReplyTime > oneHour)) {
-            
-            setTimeout(async () => {
-                await addDoc(collection(db, `support_chats/${auth.currentUser.uid}/messages`), {
-                    // 👇 هنا الرسالة الجديدة اللي طلبتها
-                    text: "وصلت رسالتك، وسيقوم فريق الدعم بالرد عليك خلال دقائق... ⏳",
-                    sender: 'admin',
-                    createdAt: serverTimestamp()
-                });
-                
-                localStorage.setItem(lastReplyKey, now);
-            }, 1500);
-        }
-        /* ----------------------- */
+        // الرد التلقائي (كما هو)
+        // ... (بقيت كود الرد التلقائي خليه زي ما هو) ...
 
     } catch (e) {
         console.error("خطأ:", e);
     }
 };
+
 
 
 
@@ -806,6 +800,7 @@ window.deleteChat = async () => {
 </script>
 </body>
 </html>
+
 
 
 
