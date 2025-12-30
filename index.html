@@ -210,58 +210,18 @@
         }
         #categories button span:first-child { font-size: 1.5rem !important; margin-bottom: 5px !important; }
     }
-footer {
-    background: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    /* ألغينا البادينج الجانبي عشان الشريط ياخذ راحته بالعرض */
-    padding: 40px 0 20px 0; 
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-}
-
-.support {
-    width: 100%; /* يخليه ياخذ كامل عرض الشاشة */
-    background: rgba(255, 255, 255, 0.03); /* نفس لون خلفيتك */
-    padding: 15px 0; /* نفس الارتفاع السابق */
-    
-    /* إلغاء الحواف الدائرية عشان يتناسب مع العرض الكامل */
-    border-radius: 0; 
-    
-    /* حدود من فوق وتحت فقط ليعطي شكل شريط احترافي */
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    border-left: none;
-    border-right: none;
-    
-    font-size: 1.1rem;
-    color: #f8fafc;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* يوسط الكلام والأيقونة */
-    gap: 10px;
-    transition: 0.3s;
-    margin-bottom: 20px; /* مسافة بينه وبين الحقوق تحته */
-}
-
-.support:hover {
-    background: rgba(99, 102, 241, 0.1);
-    border-color: #6366f1; /* يلمع حدود الفوق والتحت بس */
-}
-
-/* تنسيق الحقوق */
-footer div:last-child {
-    color: #94a3b8;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    opacity: 0.8;
-}
-
+    footer {
+        background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px);
+        border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 40px 20px;
+        margin-top: 50px; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 20px; text-align: center;
+    }
+    .support {
+        background: rgba(255, 255, 255, 0.03); padding: 15px 30px;
+        border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 1.1rem; color: #f8fafc; display: flex; align-items: center;
+        gap: 10px; transition: 0.3s;
+    }
     .support:hover { background: rgba(99, 102, 241, 0.1); border-color: #6366f1; }
     .support a {
         color: #6366f1; text-decoration: none; font-weight: 700;
@@ -322,6 +282,18 @@ footer div:last-child {
 
 /* تنبيه: لا تحتاج لإضافة أي كود للبحث داخل @media (للجوال) 
    لأن الكود أعلاه مصمم ليتجاوب تلقائياً (90% للجوال و 600px للكمبيوتر) */
+footer {
+    width: 100% !important;        /* يجبره ياخذ العرض كامل */
+    max-width: 100% !important;    /* يلغي أي حد أقصى سابق */
+    margin: 50px 0 0 0 !important; /* يلغي الهوامش الجانبية */
+    border-radius: 0 !important;   /* يخلي الزوايا مستقيمة عشان تلصق في الشاشة */
+    padding: 40px 0;               /* مساحة داخلية */
+    
+    /* لون الخلفية الداكن */
+    background: rgba(15, 23, 42, 0.95); 
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
 
 </style>
 
@@ -527,12 +499,14 @@ if(searchInput) {
 </div>
 
 <footer>
+ </div> <footer>
   <div class="support">
     💬 الدعم الفني:
     <a href="https://wa.me/966531991617">0531991617</a>
   </div>
-  <div>  صناعيتك | © 2025</div>
+  <div>صناعيتك | © 2025</div>
 </footer>
+
 <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
@@ -540,5 +514,3 @@ if(searchInput) {
 </script>
 </body>
 </html>
-
-
