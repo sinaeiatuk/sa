@@ -7,7 +7,7 @@
     <meta name="application-name" content="صناعيتك">
     <meta name="description" content="دليل صناعيتك - أفضل ورش السيارات، الكنب، والحدادة في صامطة، صبيا، أبو عريش وأحد المسارحة.">
     <meta name="keywords" content="صناعيتك, ورش جازان, ورش صامطة, تصليح سيارات, منجد كنب">
-    <title>صناعيتك | دليل ورش جازان</title>
+    <title>صناعيتك | دليل ورش جازان والمناطق المجاورة</title>
     <link rel="apple-touch-icon" href="img/LOGOAPP.png">
     <link rel="icon" type="image/jpg" href="img/LOGOAPP.png">
     <meta charset="UTF-8">
@@ -15,82 +15,129 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-        /* --- إعادة البحث للمقاس السابق وتوسيطه --- */
-    .search-box {
-        position: sticky;
-        top: 10px;
-        z-index: 2000;
-        width: 90%;
-        max-width: 600px; /* المقاس اللي كنت حاطه */
-        margin: 20px auto;
-        padding: 10px;
+    /* -----------------------------------------------------------
+       قسم التنسيق (CSS) - أعدته كما كان في ملفك الأصلي تماماً
+       ----------------------------------------------------------- */
+    :root {
+        --primary-bg: #0b0f19;
+        --accent: #6366f1;
+        --card-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
     }
 
-    .search-box input {
-        background: rgba(15, 23, 42, 0.9);
-        backdrop-filter: blur(15px);
-        border: 1px solid var(--glass-border);
-        color: white;
-        padding: 15px 25px;
-        border-radius: 15px;
-        width: 100%;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        outline: none;
-        text-align: center; /* التوسط اللي كان موجود */
+    body {
+        background: radial-gradient(circle at top right, #1e1b4b, #0b0f19);
+        color: #f8fafc;
+        margin: 0;
+        font-family: 'Cairo', sans-serif;
+        overflow-x: hidden;
     }
 
-    /* --- إعادة أزرار التصنيفات للشكل العمودي الزجاجي --- */
-    #categories {
-        display: flex !important;
-        gap: 15px !important;
-        padding: 15px !important;
-        justify-content: center !important; /* توسيط الأزرار */
-        overflow-x: auto;
+    #loading-screen {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(11, 15, 25, 0.8); backdrop-filter: blur(15px);
+        display: flex; justify-content: center; align-items: center;
+        z-index: 9999; transition: opacity 0.5s ease;
     }
 
+    .spinner {
+        width: 40px; height: 40px; border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top: 3px solid #38bdf8; border-radius: 50%;
+        animation: spin 1s linear infinite; margin: 0 auto 15px;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    header { padding: 20px 0; position: relative; z-index: 10; text-align: center; }
+    header h1 {
+        font-size: 2.8rem; margin: 20px 0 10px;
+        background: linear-gradient(to bottom, #fff, #94a3b8);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    header p { color: #94a3b8; max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
+
+    .main-header { display: flex; justify-content: center; align-items: center; padding: 30px 0; }
+    .top-logo { width: 200px; height: auto; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1)); }
+
+    /* التصنيفات - الشكل العمودي الفخم */
+    #categories { display: flex; gap: 15px; padding: 10px; justify-content: center; overflow-x: auto; }
     #categories button {
-        display: flex !important;
-        flex-direction: column !important; 
-        align-items: center !important;
-        justify-content: center !important;
-        min-width: 90px !important;
-        height: 100px !important; 
-        padding: 10px !important;
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 15px !important;
-        color: white !important;
-        font-size: 14px !important;
-        backdrop-filter: blur(5px);
-        cursor: pointer;
-        transition: 0.3s;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        min-width: 90px; height: 100px; padding: 10px;
+        background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px; color: white; font-size: 14px; cursor: pointer; transition: 0.3s;
+    }
+    #categories button:hover { background: rgba(255, 255, 255, 0.15); transform: scale(1.05); }
+    #categories button span:first-child { font-size: 24px; margin-bottom: 5px; }
+
+    /* البحث - المقاس الأصلي */
+    .search-box { position: sticky; top: 10px; z-index: 2000; width: 90%; max-width: 600px; margin: 20px auto; padding: 10px; }
+    .search-box input {
+        background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(15px);
+        border: 1px solid var(--glass-border); color: white; padding: 15px 25px;
+        border-radius: 15px; width: 100%; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        outline: none; text-align: center;
     }
 
-    #categories button span:first-child {
-        font-size: 24px !important;
-        margin-bottom: 5px !important;
+    /* الكروت والأقسام */
+    .section h2 { text-align: center; font-size: 2rem; margin-bottom: 40px; position: relative; }
+    .section h2::after {
+        content: ""; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+        width: 80px; height: 4px; background: var(--accent); border-radius: 2px;
     }
 
-    /* تأثير اللمعة الزجاجية للأزرار (اللي كنت حاطها) */
-    #categories button:hover {
-        background: rgba(255, 255, 255, 0.15) !important;
-        transform: scale(1.05);
+    .cards {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px; padding: 20px; width: 95%; margin: 0 auto;
     }
 
-    /* تعديل الجوال للأزرار (الكلام ينزل تحت بعضه) */
-    @media screen and (max-width: 500px) {
-        #categories button {
-            min-width: 85px !important;
-            height: 100px !important;
-        }
-        #categories button span {
-            font-size: 0.85rem !important;
-            white-space: normal !important;
-            line-height: 1.2 !important;
-            text-align: center !important;
-        }
+    .card {
+        background: var(--card-bg); backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border); border-radius: 20px;
+        overflow: hidden; height: 420px; position: relative; transition: 0.3s;
+        opacity: 0; transform: translateY(20px); animation: fadeInUp 0.6s ease forwards;
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+    .card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 50px rgba(99, 102, 241, 0.2); }
+    .card-cover-wrap { width: 100%; height: 50%; overflow: hidden; position: relative; }
+    .card-cover-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
+    .card:hover .card-cover-wrap img { transform: scale(1.1); }
+
+    .card-title {
+        position: absolute; bottom: 12px; right: 12px; padding: 6px 14px;
+        font-size: 1.1rem; color: white; z-index: 5;
+        background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px);
+        border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    .card p { padding: 15px; color: #94a3b8; font-size: 0.85rem; line-height: 1.5; text-align: right; }
+    .whatsapp-float {
+        position: absolute; bottom: 15px; left: 15px; width: 45px; height: 45px;
+        background: #25D366; border-radius: 50%; display: flex; align-items: center;
+        justify-content: center; color: white; font-size: 22px; text-decoration: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    /* الجوال - كرتين جنب بعض */
+    @media screen and (max-width: 768px) {
+        .cards { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; padding: 10px !important; }
+        .card { height: 320px !important; min-width: 0 !important; margin: 0 !important; }
+        .card-cover-wrap { height: 130px !important; }
+        .card-title { font-size: 0.9rem !important; }
+        .card p { font-size: 0.7rem !important; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+        #categories button { min-width: 85px !important; height: 100px !important; }
+        #categories button span { white-space: normal !important; font-size: 0.85rem !important; }
+    }
+
+    /* الأدمين والدخول */
+    .auth-box { width: 90%; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .login-btn { background: linear-gradient(90deg, #6366f1, #a855f7); border: none; padding: 10px 25px; border-radius: 12px; color: white; font-weight: 700; cursor: pointer; }
+    .user-avatar { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--accent); display: none; }
+    .admin-btn { background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid var(--glass-border); padding: 8px 18px; border-radius: 12px; font-size: 14px; cursor: pointer; display: none; }
+
+    footer { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); padding: 40px 20px; margin-top: 50px; text-align: center; }
+    .support { background: rgba(255, 255, 255, 0.03); padding: 15px 30px; border-radius: 20px; display: inline-flex; align-items: center; gap: 10px; border: 1px solid rgba(255, 255, 255, 0.1); }
+    .support a { color: #6366f1; text-decoration: none; font-weight: 700; }
 </style>
 </head>
 
@@ -98,30 +145,30 @@
     <div id="loading-screen">
         <div class="loader-content">
             <div class="spinner"></div>
-            <p>جاري تحميل صناعيتك...</p>
+            <p>انتظر قليلاً من فضلك...</p>
         </div>
     </div>
 
     <header>
         <div class="auth-box">
             <button class="login-btn" onclick="login()">تسجيل الدخول</button>
-            <img id="avatar" class="user-avatar" alt="User">
+            <img id="avatar" class="user-avatar">
             <button id="adminBtn" class="admin-btn" onclick="location.href='admin.html'">لوحة المطور</button>
         </div>
         <div class="main-header">
             <img src="img/LOGO.png" alt="صناعيتك" class="top-logo">
         </div>
-        <p>دليل شامل لورش جازان والمملكة</p>
+        <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكة</p>
 
         <div class="categories" id="categories">
             <button onclick="goTo('cars')"><span>🚗</span><span>السيارات</span></button>
             <button onclick="goTo('metal')"><span>🔨</span><span>الحدادة</span></button>
-            <button onclick="goTo('sofa')"><span>🛋️</span><span>الكنب</span></button>
-            <button onclick="goTo('aluminum')"><span>❄️</span><span>تكييف</span></button>
+            <button onclick="goTo('sofa')"><span> Couch </span><span>الكنب</span></button>
+            <button onclick="goTo('aluminum')"><span>❄️</span><span>المكيفات</span></button>
         </div>
 
         <div class="search-box">
-            <input id="searchInput" placeholder="🔍 ابحث عن اسم الورشة أو التخصص...">
+            <input id="searchInput" placeholder="🔍 ابحث عن اسم الورشة">
         </div>
     </header>
 
@@ -129,15 +176,18 @@
         <section class="section" id="cars"><h2>ورش السيارات</h2><div class="cards" id="carsCards"></div></section>
         <section class="section" id="metal"><h2>ورش الحدادة والألمنيوم</h2><div class="cards" id="metalCards"></div></section>
         <section class="section" id="sofa"><h2>ورش الكنب</h2><div class="cards" id="sofaCards"></div></section>
-        <section class="section" id="aluminum"><h2>ورش المكيفات</h2><div class="cards" id="aluminumCards"></div></section>
+        <section class="section" id="aluminum"><h2>ورش المكيفات و الغسالات</h2><div class="cards" id="aluminumCards"></div></section>
     </div>
 
     <footer>
         <div class="support">💬 الدعم الفني: <a href="https://wa.me/966531991617">0531991617</a></div>
-        <div style="margin-top:10px;">صناعيتك | © 2025</div>
+        <div style="margin-top:20px; color:#94a3b8;">صناعيتك | © 2025</div>
     </footer>
 
 <script type="module">
+/* -----------------------------------------------------------
+   التحسينات البرمجية - تطبيق نصائح الأداء النظيف
+   ----------------------------------------------------------- */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
@@ -161,9 +211,10 @@ window.login = () => signInWithPopup(auth, provider);
 
 onAuthStateChanged(auth, user => {
     if(!user) return;
-    document.querySelector(".login-btn").style.display="none";
+    document.querySelector(".login-btn").style.display = "none";
     const avatar = document.getElementById("avatar");
-    avatar.src = user.photoURL; avatar.style.display = "block";
+    avatar.src = user.photoURL;
+    avatar.style.display = "block";
     if(ADMINS.includes(user.email)) document.getElementById("adminBtn").style.display = "block";
 });
 
@@ -176,6 +227,7 @@ async function loadWorkshops() {
             card.className = "card";
             card.onclick = () => location.href = "details.html?id=" + d.id;
             
+            // إضافة loading="lazy" لتحسين الأداء وتوفير الموارد
             card.innerHTML = `
                 <div class="card-cover-wrap">
                     <img src="${w.cover}" loading="lazy" alt="${w.name}">
@@ -184,24 +236,33 @@ async function loadWorkshops() {
                 <p>${w.spec}</p>
                 <a class="whatsapp-float" href="https://wa.me/${w.phone}" target="_blank" onclick="event.stopPropagation()">💬</a>
             `;
-            const container = document.getElementById(w.cat + "Cards");
-            if(container) container.appendChild(card);
+            
+            const targetContainer = document.getElementById(w.cat + "Cards");
+            if (targetContainer) targetContainer.appendChild(card);
         });
-    } catch (e) { console.error("Error loading:", e); }
-    
+    } catch (err) {
+        console.error("Quota or Connection Error:", err);
+    }
+
     const loader = document.getElementById('loading-screen');
-    if (loader) { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }
+    if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => loader.style.display = 'none', 500);
+    }
 }
 
 window.onload = loadWorkshops;
-
 window.goTo = id => document.getElementById(id)?.scrollIntoView({behavior: "smooth"});
 
+// تحسين البحث ليكون أسرع وأقل استهلاكاً للموارد
 document.getElementById('searchInput').addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase().trim();
-    document.querySelectorAll('.card').forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(term) ? "flex" : "none";
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+        const title = card.querySelector('.card-title')?.innerText.toLowerCase() || "";
+        const desc = card.querySelector('p')?.innerText.toLowerCase() || "";
+        card.style.display = (title.includes(term) || desc.includes(term)) ? "flex" : "none";
     });
 });
 </script>
