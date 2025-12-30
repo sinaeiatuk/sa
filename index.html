@@ -3,7 +3,8 @@
 <head>
     <link rel="manifest" href="manifest.json">
     <meta name="google-site-verification" content="YBK8NeLzzw1W6P2s1vC77hX5mR8g76K6w98PBybz8b0" />
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#1e293b">
+
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script type="text/javascript">
@@ -51,24 +52,22 @@
         --glass-border: rgba(255, 255, 255, 0.1);
     }
 html {
-    /* هذا لونك الغامق الأصلي (بدال الأبيض) عشان لما تسحب الشاشة */
-    background-color: #0b0f19; 
+    background-color: #1e293b; /* خلينا لون الخلفية "الأصل" هو الرصاصي الفاتح */
     height: 100%;
 }
 
 body {
-    /* هنا رجعنا التدرج اللوني حقك بالضبط */
-    /* لاحظ: استخدمنا 0b0f19 في النهاية عشان يدمج مع الخلفية */
-    background: radial-gradient(circle at 50% 0%, #252f3f, #0b0f19);
-    
+    /* التدرج يبدأ من نفس اللون #1e293b وينتهي بالأسود */
+    background: radial-gradient(circle at 50% 0%, #1e293b, #0b0f19);
     margin: 0;
     padding: 0;
-    min-height: 100%; /* مهمة عشان التدرج يغطي الشاشة كاملة */
+    min-height: 100%;
     width: 100%;
     overflow-x: hidden;
     font-family: 'Cairo', sans-serif;
     color: #f8fafc;
 }
+
 
     
     
@@ -810,6 +809,7 @@ window.deleteChat = async () => {
 </script>
 </body>
 </html>
+
 
 
 
