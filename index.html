@@ -3,6 +3,14 @@
 <head>
     <link rel="manifest" href="manifest.json">
     <meta name="google-site-verification" content="YBK8NeLzzw1W6P2s1vC77hX5mR8g76K6w98PBybz8b0" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      // مفتاحك العام
+      emailjs.init("yTcwphC0s254t2MYr");
+   })();
+</script>
+
     <meta name="apple-mobile-web-app-title" content="صناعيتك">
     <meta name="application-name" content="صناعيتك">
     <meta name="description" content="دليل صناعيتك - أفضل ورش السيارات، الكنب، والحدادة في صامطة، صبيا، أبو عريش وأحد المسارحة. ابحث عن ورشتك الآن.">
@@ -567,25 +575,41 @@ window.sendMessage = async () => {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     
+    // التحقق من النص وتسجيل الدخول
     if (!text) return;
     if (!auth.currentUser) {
-        alert("يرجى تسجيل الدخول أولاً لإرسال الرسالة");
-        login(); // فتح نافذة الدخول
+        alert("يرجى تسجيل الدخول أولاً");
+        login();
         return;
     }
 
-    input.value = '';
+    input.value = ''; // تفريغ الخانة فوراً
 
     try {
+        // 1. حفظ الرسالة في قاعدة البيانات (عشان تطلع في الشات)
         await addDoc(collection(db, `support_chats/${auth.currentUser.uid}/messages`), {
             text: text,
             sender: 'user',
             createdAt: serverTimestamp()
         });
+
+        // 2. إرسال تنبيه لإيميلك (الجديد)
+        const emailParams = {
+            from_name: auth.currentUser.displayName || "عميل",
+            message: text,
+            reply_to: auth.currentUser.email
+        };
+
+        // إرسال الإيميل باستخدام بياناتك
+        emailjs.send("service_7qf2s7o", "Template_mtxq4qb", emailParams)
+            .then(() => console.log('تم إرسال الإيميل بنجاح'))
+            .catch((err) => console.error('فشل إرسال الإيميل:', err));
+
     } catch (e) {
-        console.error("خطأ في الشات:", e);
+        console.error("حدث خطأ:", e);
     }
 };
+
 
 window.handleEnter = (e) => {
     if (e.key === 'Enter') sendMessage();
@@ -679,6 +703,7 @@ window.handleEnter = (e) => {
 </script>
 </body>
 </html>
+
 
 
 
