@@ -210,32 +210,42 @@
         }
         #categories button span:first-child { font-size: 1.5rem !important; margin-bottom: 5px !important; }
     }
-    footer {
+ /* --- الفوتر: الشريط الكبير الممتد --- */
+footer {
     width: 100% !important;
     max-width: 100% !important;
-    margin: 0 !important; /* شلت المارجن عشان يلصق تحت تماماً */
-    border-radius: 0 !important;
-    padding: 20px 0; /* قللت المسافة من 40 إلى 20 عشان ما يصير عريض بزيادة */
-    
-    background: rgba(15, 23, 42, 0.98); /* غمقت اللون شوي عشان يصير واضح */
+    margin: 30px 0 0 0 !important; /* مسافة بسيطة من فوق */
+    padding: 20px 0 !important;    /* ارتفاع مناسب للشريط */
+    background: rgba(15, 23, 42, 0.98) !important; /* لون الشريط الغامق */
     backdrop-filter: blur(15px);
-    border-top: none !important; /* شلت الخط العلوي عشان ما يبين كأنه صندوق مفصول */
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.2); /* ظل ناعم على فوق بدال الخط */
     
-    /* توسيط المحتوى */
+    /* ترتيب المحتوى */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 15px; /* مسافة بسيطة بين زر الدعم والحقوق */
+    gap: 10px; /* مسافة بين الرقم والحقوق */
+    
+    border-radius: 0 !important; /* إلغاء الزوايا الدائرية ليمتد للشاشة */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* خط خفيف جداً من فوق */
 }
 
-    .support {
-        background: rgba(255, 255, 255, 0.03); padding: 15px 30px;
-        border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
-        font-size: 1.1rem; color: #f8fafc; display: flex; align-items: center;
-        gap: 10px; transition: 0.3s;
-    }
+/* --- زر الدعم: تفريغه من الخلفية ليدمج مع الشريط --- */
+.support {
+    background: transparent !important; /* شفاف عشان ما يطلع مربع ثاني */
+    border: none !important;            /* بدون حدود */
+    box-shadow: none !important;        /* بدون ظل */
+    padding: 0 !important;              /* بدون حشوة زائدة */
+    margin: 0 !important;
+    
+    /* تنسيق النص */
+    font-size: 1.1rem;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+   
     .support:hover { background: rgba(99, 102, 241, 0.1); border-color: #6366f1; }
     .support a {
         color: #6366f1; text-decoration: none; font-weight: 700;
@@ -528,4 +538,5 @@ if(searchInput) {
 </script>
 </body>
 </html>
+
 
