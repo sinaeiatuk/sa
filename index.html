@@ -397,7 +397,8 @@ footer {
 // 1. الاستيرادات (Imports) مجمعة بالكامل لتجنب الأخطاء
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
-import { getFirestore, collection, getDocs, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
 
 // 2. إعدادات Firebase
 const firebaseConfig = {
@@ -636,6 +637,37 @@ window.sendMessage = async () => {
 window.handleEnter = (e) => {
     if (e.key === 'Enter') sendMessage();
 };
+        // دالة حذف المحادثة
+window.deleteChat = async () => {
+    if (!auth.currentUser) return;
+    
+    // رسالة تأكيد عشان ما يحذف بالغلط
+    if (!confirm("هل أنت متأكد من حذف سجل المحادثة بالكامل؟ لا يمكن التراجع عن هذا.")) {
+        return;
+    }
+
+    try {
+        const chatRef = collection(db, `support_chats/${auth.currentUser.uid}/messages`);
+        const snapshot = await getDocs(chatRef);
+
+        // حذف كل رسالة وحدة وحدة
+        snapshot.forEach(async (document) => {
+            await deleteDoc(doc(db, `support_chats/${auth.currentUser.uid}/messages`, document.id));
+        });
+
+        // تنظيف الشاشة فوراً
+        document.getElementById('chatBody').innerHTML = 
+            `<div class="chat-msg msg-admin">تم حذف المحادثة بنجاح. ✅<br>ابدأ محادثة جديدة متى ما حبيت.</div>`;
+        
+        // إعادة تعيين مؤقت الرد التلقائي (عشان لو ارسل يرحب فيه من جديد)
+        localStorage.removeItem('last_auto_reply_' + auth.currentUser.uid);
+
+    } catch (error) {
+        console.error("خطأ في الحذف:", error);
+        alert("حدث خطأ أثناء الحذف");
+    }
+};
+
 </script>
 
 </head>
@@ -696,18 +728,13 @@ window.handleEnter = (e) => {
 </div>
 
  </div> <footer>
-  <div class="support">
-    💬 الدعم الفني:
-    <a href="https://wa.me/966531991617">0531991617</a>
-  </div>
-  <div>صناعيتك | © 2025</div>
-</footer>
-<button class="chat-btn-float" onclick="toggleChat()">💬</button>
-
 <div class="chat-window" id="chatWindow">
     <div class="chat-header">
         <span>الدعم الفني - صناعيتك</span>
-        <button class="chat-close" onclick="toggleChat()">✕</button>
+        <div style="display: flex; gap: 10px;">
+            <button class="chat-close" onclick="deleteChat()" title="حذف المحادثة">🗑️</button>
+            <button class="chat-close" onclick="toggleChat()">✕</button>
+        </div>
     </div>
     <div class="chat-body" id="chatBody">
         <div class="chat-msg msg-admin">مرحباً بك في صناعيتك! 👋<br>كيف نقدر نخدمك اليوم؟</div>
@@ -718,6 +745,7 @@ window.handleEnter = (e) => {
     </div>
 </div>
 
+
 <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
@@ -725,6 +753,7 @@ window.handleEnter = (e) => {
 </script>
 </body>
 </html>
+
 
 
 
