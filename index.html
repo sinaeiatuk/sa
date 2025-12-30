@@ -575,7 +575,6 @@ window.sendMessage = async () => {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     
-    // التحقق من النص وتسجيل الدخول
     if (!text) return;
     if (!auth.currentUser) {
         alert("يرجى تسجيل الدخول أولاً");
@@ -583,32 +582,42 @@ window.sendMessage = async () => {
         return;
     }
 
-    input.value = ''; // تفريغ الخانة فوراً
+    // حفظنا النص عشان نرسله قبل ما نمسحه
+    const originalText = text;
+    input.value = '';
 
     try {
-        // 1. حفظ الرسالة في قاعدة البيانات (عشان تطلع في الشات)
+        // 1. إرسال تنبيه للإيميل (خليناها الأولى عشان نصيد الخطأ)
+        const emailParams = {
+            from_name: auth.currentUser.displayName || "عميل مجهول",
+            message: originalText,
+            reply_to: auth.currentUser.email
+        };
+
+        alert("جاري محاولة الإرسال... ⏳");
+
+        await emailjs.send("service_7qf2s7o", "Template_mtxq4qb", emailParams)
+            .then(() => {
+                alert("✅ تم الإرسال بنجاح! شيك إيميلك الحين.");
+            })
+            .catch((err) => {
+                // هذا هو المهم: بيطلع لك رسالة فيها سبب الخطأ
+                alert("❌ فشل الإرسال! والسبب:\n" + JSON.stringify(err));
+                console.error("EmailJS Error:", err);
+            });
+
+        // 2. حفظ في قاعدة البيانات
         await addDoc(collection(db, `support_chats/${auth.currentUser.uid}/messages`), {
-            text: text,
+            text: originalText,
             sender: 'user',
             createdAt: serverTimestamp()
         });
 
-        // 2. إرسال تنبيه لإيميلك (الجديد)
-        const emailParams = {
-            from_name: auth.currentUser.displayName || "عميل",
-            message: text,
-            reply_to: auth.currentUser.email
-        };
-
-        // إرسال الإيميل باستخدام بياناتك
-        emailjs.send("service_7qf2s7o", "Template_mtxq4qb", emailParams)
-            .then(() => console.log('تم إرسال الإيميل بنجاح'))
-            .catch((err) => console.error('فشل إرسال الإيميل:', err));
-
     } catch (e) {
-        console.error("حدث خطأ:", e);
+        alert("حدث خطأ عام: " + e.message);
     }
 };
+
 
 
 window.handleEnter = (e) => {
@@ -703,6 +712,7 @@ window.handleEnter = (e) => {
 </script>
 </body>
 </html>
+
 
 
 
