@@ -582,32 +582,52 @@ window.sendMessage = async () => {
         return;
     }
 
-    input.value = ''; // تفريغ الخانة فوراً
+    input.value = ''; 
 
     try {
-        // 1. حفظ الرسالة في الشات
+        // 1. حفظ رسالة العميل
         await addDoc(collection(db, `support_chats/${auth.currentUser.uid}/messages`), {
             text: text,
             sender: 'user',
             createdAt: serverTimestamp()
         });
 
-        // 2. إعداد الرسالة للإيميل
+        // 2. إرسال الإيميل (بالاسم الصحيح والمفتاح)
         const emailParams = {
             from_name: auth.currentUser.displayName || "عميل",
             message: text,
             reply_to: auth.currentUser.email
         };
-
-        // 3. الإرسال (تم تصحيح اسم القالب هنا إلى template_mtxq4qb)
         emailjs.send("service_7qf2s7o", "template_mtxq4qb", emailParams, "yTcwphC0s254t2MYr")
-            .then(() => console.log('✅ تم الإرسال بنجاح'))
-            .catch((err) => console.error('❌ فشل الإرسال:', err));
+            .catch((err) => console.error('فشل الإيميل:', err));
+
+        /* --- نظام الرد التلقائي --- */
+        const lastReplyKey = 'last_auto_reply_' + auth.currentUser.uid;
+        const lastReplyTime = localStorage.getItem(lastReplyKey);
+        const now = Date.now();
+        const oneHour = 60 * 60 * 1000; 
+
+        // إذا مرت ساعة على آخر رد
+        if (!lastReplyTime || (now - lastReplyTime > oneHour)) {
+            
+            setTimeout(async () => {
+                await addDoc(collection(db, `support_chats/${auth.currentUser.uid}/messages`), {
+                    // 👇 هنا الرسالة الجديدة اللي طلبتها
+                    text: "وصلت رسالتك، وسيقوم فريق الدعم بالرد عليك خلال دقائق... ⏳",
+                    sender: 'admin',
+                    createdAt: serverTimestamp()
+                });
+                
+                localStorage.setItem(lastReplyKey, now);
+            }, 1500);
+        }
+        /* ----------------------- */
 
     } catch (e) {
         console.error("خطأ:", e);
     }
 };
+
 
 
 
@@ -705,6 +725,7 @@ window.handleEnter = (e) => {
 </script>
 </body>
 </html>
+
 
 
 
