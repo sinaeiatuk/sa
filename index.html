@@ -575,7 +575,6 @@ window.sendMessage = async () => {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     
-    // التحقق من النص
     if (!text) return;
     if (!auth.currentUser) {
         alert("يرجى تسجيل الدخول أولاً");
@@ -583,44 +582,33 @@ window.sendMessage = async () => {
         return;
     }
 
-    // نحفظ النص قبل المسح عشان نرسله للإيميل
-    const msgToSend = text; 
-    input.value = ''; // نمسح الخانة عشان العميل يرتاح
+    input.value = ''; // تفريغ الخانة فوراً
 
     try {
-        // 1. نضيف الرسالة للشات (عشان يشوفها العميل)
+        // 1. حفظ الرسالة في الشات
         await addDoc(collection(db, `support_chats/${auth.currentUser.uid}/messages`), {
-            text: msgToSend,
+            text: text,
             sender: 'user',
             createdAt: serverTimestamp()
         });
 
-        // 2. نجهز الإيميل
+        // 2. إعداد الرسالة للإيميل
         const emailParams = {
             from_name: auth.currentUser.displayName || "عميل",
-            message: msgToSend,
+            message: text,
             reply_to: auth.currentUser.email
         };
 
-        // تنبيه صغير عشان نعرف إن الكود وصل هنا
-        console.log("جاري محاولة الإرسال...");
-
-        // 3. محاولة الإرسال مع عرض الخطأ
-        // تأكد أن هذا هو الـ ID الصحيح من القائمة عندك
-        await emailjs.send("service_7qf2s7o", "Template_mtxq4qb", emailParams, "yTcwphC0s254t2MYr")
-            .then(() => {
-                alert("✅ تم الإرسال للإيميل بنجاح!");
-            })
-            .catch((err) => {
-                // هذا التنبيه بيعلمنا ليش ما وصل الإيميل
-                alert("❌ الرسالة نزلت بالشات، لكن الإيميل فشل:\n" + JSON.stringify(err));
-            });
+        // 3. الإرسال (تم تصحيح اسم القالب هنا إلى template_mtxq4qb)
+        emailjs.send("service_7qf2s7o", "template_mtxq4qb", emailParams, "yTcwphC0s254t2MYr")
+            .then(() => console.log('✅ تم الإرسال بنجاح'))
+            .catch((err) => console.error('❌ فشل الإرسال:', err));
 
     } catch (e) {
-        alert("خطأ برمجي عام: " + e.message);
-        console.error(e);
+        console.error("خطأ:", e);
     }
 };
+
 
 
 
@@ -717,6 +705,7 @@ window.handleEnter = (e) => {
 </script>
 </body>
 </html>
+
 
 
 
