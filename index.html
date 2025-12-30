@@ -575,7 +575,7 @@ window.sendMessage = async () => {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     
-    // التحقق من النص وتسجيل الدخول
+    // التحقق من النص
     if (!text) return;
     if (!auth.currentUser) {
         alert("يرجى تسجيل الدخول أولاً");
@@ -583,33 +583,45 @@ window.sendMessage = async () => {
         return;
     }
 
-    input.value = ''; // تفريغ الخانة فوراً لسرعة الاستجابة
+    // نحفظ النص قبل المسح عشان نرسله للإيميل
+    const msgToSend = text; 
+    input.value = ''; // نمسح الخانة عشان العميل يرتاح
 
     try {
-        // 1. حفظ الرسالة في الشات فوراً (عشان العميل يشوفها بسرعة)
+        // 1. نضيف الرسالة للشات (عشان يشوفها العميل)
         await addDoc(collection(db, `support_chats/${auth.currentUser.uid}/messages`), {
-            text: text,
+            text: msgToSend,
             sender: 'user',
             createdAt: serverTimestamp()
         });
 
-        // 2. إعداد بيانات الإيميل
+        // 2. نجهز الإيميل
         const emailParams = {
             from_name: auth.currentUser.displayName || "عميل",
-            message: text,
+            message: msgToSend,
             reply_to: auth.currentUser.email
         };
 
-        // 3. إرسال الإيميل (مع وضع المفتاح العام يدوياً هنا لضمان القبول)
-        // الترتيب: (Service ID, Template ID, Params, Public Key)
-        emailjs.send("service_7qf2s7o", "Template_mtxq4qb", emailParams, "yTcwphC0s254t2MYr")
-            .then(() => console.log('✅ تم إرسال الإيميل بنجاح'))
-            .catch((err) => console.error('❌ فشل الإرسال:', err));
+        // تنبيه صغير عشان نعرف إن الكود وصل هنا
+        console.log("جاري محاولة الإرسال...");
+
+        // 3. محاولة الإرسال مع عرض الخطأ
+        // تأكد أن هذا هو الـ ID الصحيح من القائمة عندك
+        await emailjs.send("service_7qf2s7o", "Template_mtxq4qb", emailParams, "yTcwphC0s254t2MYr")
+            .then(() => {
+                alert("✅ تم الإرسال للإيميل بنجاح!");
+            })
+            .catch((err) => {
+                // هذا التنبيه بيعلمنا ليش ما وصل الإيميل
+                alert("❌ الرسالة نزلت بالشات، لكن الإيميل فشل:\n" + JSON.stringify(err));
+            });
 
     } catch (e) {
-        console.error("حدث خطأ في النظام:", e);
+        alert("خطأ برمجي عام: " + e.message);
+        console.error(e);
     }
 };
+
 
 
 
@@ -705,6 +717,7 @@ window.handleEnter = (e) => {
 </script>
 </body>
 </html>
+
 
 
 
