@@ -50,23 +50,28 @@
         --card-bg: rgba(255, 255, 255, 0.05);
         --glass-border: rgba(255, 255, 255, 0.1);
     }
-
-    html {
-    background-color: #0f172a; /* لون سادة عشان شريط الحالة والسحب */
+html {
+    /* هذا لونك الغامق الأصلي (بدال الأبيض) عشان لما تسحب الشاشة */
+    background-color: #0b0f19; 
     height: 100%;
 }
 
 body {
-    /* هنا التدرج اللوني حقك رجعناه */
-    background: radial-gradient(circle at 50% 0%, #1e293b, #0f172a);
+    /* هنا رجعنا التدرج اللوني حقك بالضبط */
+    /* لاحظ: استخدمنا 0b0f19 في النهاية عشان يدمج مع الخلفية */
+    background: radial-gradient(circle at 50% 0%, #252f3f, #0b0f19);
+    
     margin: 0;
     padding: 0;
-    min-height: 100%;
+    min-height: 100%; /* مهمة عشان التدرج يغطي الشاشة كاملة */
     width: 100%;
     overflow-x: hidden;
     font-family: 'Cairo', sans-serif;
     color: #f8fafc;
 }
+
+    
+    
 
 
 
@@ -805,6 +810,7 @@ window.deleteChat = async () => {
 </script>
 </body>
 </html>
+
 
 
 
