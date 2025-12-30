@@ -575,6 +575,7 @@ window.sendMessage = async () => {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     
+    // التحقق من النص وتسجيل الدخول
     if (!text) return;
     if (!auth.currentUser) {
         alert("يرجى تسجيل الدخول أولاً");
@@ -582,39 +583,31 @@ window.sendMessage = async () => {
         return;
     }
 
-    // حفظنا النص عشان نرسله قبل ما نمسحه
-    const originalText = text;
-    input.value = '';
+    input.value = ''; // تفريغ الخانة فوراً لسرعة الاستجابة
 
     try {
-        // 1. إرسال تنبيه للإيميل (خليناها الأولى عشان نصيد الخطأ)
-        const emailParams = {
-            from_name: auth.currentUser.displayName || "عميل مجهول",
-            message: originalText,
-            reply_to: auth.currentUser.email
-        };
-
-        alert("جاري محاولة الإرسال... ⏳");
-
-        await emailjs.send("service_7qf2s7o", "Template_mtxq4qb", emailParams)
-            .then(() => {
-                alert("✅ تم الإرسال بنجاح! شيك إيميلك الحين.");
-            })
-            .catch((err) => {
-                // هذا هو المهم: بيطلع لك رسالة فيها سبب الخطأ
-                alert("❌ فشل الإرسال! والسبب:\n" + JSON.stringify(err));
-                console.error("EmailJS Error:", err);
-            });
-
-        // 2. حفظ في قاعدة البيانات
+        // 1. حفظ الرسالة في الشات فوراً (عشان العميل يشوفها بسرعة)
         await addDoc(collection(db, `support_chats/${auth.currentUser.uid}/messages`), {
-            text: originalText,
+            text: text,
             sender: 'user',
             createdAt: serverTimestamp()
         });
 
+        // 2. إعداد بيانات الإيميل
+        const emailParams = {
+            from_name: auth.currentUser.displayName || "عميل",
+            message: text,
+            reply_to: auth.currentUser.email
+        };
+
+        // 3. إرسال الإيميل (مع وضع المفتاح العام يدوياً هنا لضمان القبول)
+        // الترتيب: (Service ID, Template ID, Params, Public Key)
+        emailjs.send("service_7qf2s7o", "Template_mtxq4qb", emailParams, "yTcwphC0s254t2MYr")
+            .then(() => console.log('✅ تم إرسال الإيميل بنجاح'))
+            .catch((err) => console.error('❌ فشل الإرسال:', err));
+
     } catch (e) {
-        alert("حدث خطأ عام: " + e.message);
+        console.error("حدث خطأ في النظام:", e);
     }
 };
 
@@ -712,6 +705,7 @@ window.handleEnter = (e) => {
 </script>
 </body>
 </html>
+
 
 
 
