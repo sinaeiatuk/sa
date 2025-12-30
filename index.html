@@ -324,18 +324,7 @@ body {
 
 /* تنبيه: لا تحتاج لإضافة أي كود للبحث داخل @media (للجوال) 
    لأن الكود أعلاه مصمم ليتجاوب تلقائياً (90% للجوال و 600px للكمبيوتر) */
-footer {
-    width: 100% !important;        /* يجبره ياخذ العرض كامل */
-    max-width: 100% !important;    /* يلغي أي حد أقصى سابق */
-    margin: 50px 0 0 0 !important; /* يلغي الهوامش الجانبية */
-    border-radius: 0 !important;   /* يخلي الزوايا مستقيمة عشان تلصق في الشاشة */
-    padding: 40px 0;               /* مساحة داخلية */
-    
-    /* لون الخلفية الداكن */
-    background: rgba(15, 23, 42, 0.95); 
-    backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
+
 /* --- نافذة الشات العائمة --- */
 .chat-btn-float {
     position: fixed; bottom: 20px; left: 20px; z-index: 9990;
@@ -437,6 +426,14 @@ footer {
     color: #ef4444 !important; /* لون أحمر */
     background: rgba(239, 68, 68, 0.1);
     transform: scale(1.1);
+}
+footer {
+    background-color: #1e293b; /* خلينا الفوتر نفس لون شريط الحالة بالضبط */
+    width: 100%;
+    padding: 30px 0; /* كبّرنا المساحة عشان يبين اللون زين */
+    margin-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* خط خفيف يفصل الفوتر عن المحتوى */
+    text-align: center;
 }
 
 </style>
@@ -809,6 +806,7 @@ window.deleteChat = async () => {
 </script>
 </body>
 </html>
+
 
 
 
