@@ -385,6 +385,39 @@ footer {
 @media (max-width: 480px) {
     .chat-window { width: 90%; left: 5%; bottom: 80px; height: 60vh; }
 }
+/* تنسيق أزرار الهيدر */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* مسافة بين الزرين */
+}
+
+.chat-action-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* تأثير عند المرور على زر الإغلاق */
+.chat-action-btn:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* تأثير خاص لزر الحذف (يصير أحمر) */
+.delete-btn:hover {
+    color: #ef4444 !important; /* لون أحمر */
+    background: rgba(239, 68, 68, 0.1);
+    transform: scale(1.1);
+}
 
 </style>
 
@@ -728,14 +761,17 @@ window.deleteChat = async () => {
 </div>
 
  </div> <footer>
+     <button class="chat-btn-float" onclick="toggleChat()">💬</button>
 <div class="chat-window" id="chatWindow">
-    <div class="chat-header">
-        <span>الدعم الفني - صناعيتك</span>
-        <div style="display: flex; gap: 10px;">
-            <button class="chat-close" onclick="deleteChat()" title="حذف المحادثة">🗑️</button>
-            <button class="chat-close" onclick="toggleChat()">✕</button>
-        </div>
+<div class="chat-header">
+    <span>الدعم الفني - صناعيتك</span>
+    
+    <div class="header-actions">
+        <button class="chat-action-btn delete-btn" onclick="deleteChat()" title="حذف المحادثة">🗑️</button>
+        <button class="chat-action-btn" onclick="toggleChat()" title="إغلاق">✕</button>
     </div>
+</div>
+
     <div class="chat-body" id="chatBody">
         <div class="chat-msg msg-admin">مرحباً بك في صناعيتك! 👋<br>كيف نقدر نخدمك اليوم؟</div>
     </div>
@@ -753,6 +789,7 @@ window.deleteChat = async () => {
 </script>
 </body>
 </html>
+
 
 
 
