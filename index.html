@@ -211,11 +211,25 @@
         #categories button span:first-child { font-size: 1.5rem !important; margin-bottom: 5px !important; }
     }
     footer {
-        background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px);
-        border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 40px 20px;
-        margin-top: 50px; display: flex; flex-direction: column;
-        align-items: center; justify-content: center; gap: 20px; text-align: center;
-    }
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important; /* شلت المارجن عشان يلصق تحت تماماً */
+    border-radius: 0 !important;
+    padding: 20px 0; /* قللت المسافة من 40 إلى 20 عشان ما يصير عريض بزيادة */
+    
+    background: rgba(15, 23, 42, 0.98); /* غمقت اللون شوي عشان يصير واضح */
+    backdrop-filter: blur(15px);
+    border-top: none !important; /* شلت الخط العلوي عشان ما يبين كأنه صندوق مفصول */
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.2); /* ظل ناعم على فوق بدال الخط */
+    
+    /* توسيط المحتوى */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* مسافة بسيطة بين زر الدعم والحقوق */
+}
+
     .support {
         background: rgba(255, 255, 255, 0.03); padding: 15px 30px;
         border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
@@ -514,3 +528,4 @@ if(searchInput) {
 </script>
 </body>
 </html>
+
