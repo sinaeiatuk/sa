@@ -443,64 +443,66 @@ body {
 .coming-soon-box h3 { color: #6366f1; margin: 0 0 5px 0; font-size: 1rem; }
 .coming-soon-box p { color: #94a3b8; font-size: 0.8rem; margin: 0; }
 
-/* تنسيق قائمة المستخدم المنسدلة */
+/* تنسيق النافذة المنبثقة (في وسط الشاشة) */
 .user-menu-dropdown {
-    position: absolute;
-    top: 70px; /* تحت الهيدر بشوي */
-    left: 20px; /* جهة اليسار عشان اللغة عربية */
-    width: 220px;
-    background: rgba(15, 23, 42, 0.95); /* لون داكن فخم */
-    backdrop-filter: blur(15px);
+    position: fixed;          /* تثبيت بالنسبة للشاشة كاملة */
+    top: 50%;                 /* نص الارتفاع */
+    left: 50%;                /* نص العرض */
+    transform: translate(-50%, -50%); /* معادلة لضمان التوسيط الدقيق */
+    
+    width: 300px;             /* عرضناها شوي عشان تصير واضحة */
+    background: rgba(15, 23, 42, 0.98); /* لون غامق وفخم */
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    display: none; /* مخفية في البداية */
+    border-radius: 20px;      /* حواف دائرية أكثر */
+    
+    display: none;            /* مخفية في البداية */
     flex-direction: column;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    z-index: 9999;
-    overflow: hidden;
-    animation: fadeInMenu 0.3s ease;
+    
+    /* الشادو الخفيف اللي طلبته */
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5); 
+    
+    z-index: 10000;           /* عشان تطلع فوق كل شي */
+    animation: popupFade 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28); /* حركة ظهور ناعمة */
 }
 
-@keyframes fadeInMenu {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* حركة الظهور (تبدأ صغيرة وتكبر) */
+@keyframes popupFade {
+    from { 
+        opacity: 0; 
+        transform: translate(-50%, -40%) scale(0.9); /* تبدأ نازلة شوي وصغيرة */
+    }
+    to { 
+        opacity: 1; 
+        transform: translate(-50%, -50%) scale(1);    /* تثبت في النص */
+    }
 }
 
+/* باقي التنسيقات (العناوين والأزرار) زي ما هي */
 .menu-header-info {
-    padding: 15px;
+    padding: 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     text-align: center;
 }
-
-.menu-header-info h4 {
-    margin: 0; color: #fff; font-size: 1rem;
-}
-.menu-header-info span {
-    font-size: 0.8rem; color: #94a3b8;
-}
+.menu-header-info h4 { margin: 0 0 5px 0; color: #fff; font-size: 1.2rem; }
+.menu-header-info span { font-size: 0.9rem; color: #94a3b8; }
 
 .menu-item {
     background: none; border: none;
-    width: 100%; padding: 12px 15px;
+    width: 100%; padding: 15px 20px;
     text-align: right; color: #e2e8f0;
     cursor: pointer; font-family: 'Cairo', sans-serif;
-    display: flex; align-items: center; gap: 10px;
-    transition: 0.2s;
-    font-size: 0.95rem;
+    display: flex; align-items: center; gap: 15px;
+    transition: 0.2s; font-size: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
 }
+.menu-item:last-child { border-bottom: none; }
 
-.menu-item:hover {
-    background: rgba(99, 102, 241, 0.1);
-    color: #6366f1;
-}
+.menu-item:hover { background: rgba(99, 102, 241, 0.1); color: #6366f1; }
 
-.logout-btn {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    color: #ef4444 !important; /* لون أحمر للخروج */
-}
-.logout-btn:hover {
-    background: rgba(239, 68, 68, 0.1) !important;
-}
+.logout-btn { color: #ef4444 !important; }
+.logout-btn:hover { background: rgba(239, 68, 68, 0.1) !important; }
+
 
 </style>
 
@@ -986,6 +988,7 @@ window.addEventListener('click', function(e) {
 </script>
 </body>
 </html>
+
 
 
 
