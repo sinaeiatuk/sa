@@ -438,51 +438,6 @@ footer {
     border-top: 1px solid rgba(255, 255, 255, 0.05); /* خط خفيف يفصل الفوتر عن المحتوى */
     text-align: center;
 }
-/* =========================================
-   تنسيق صندوق "قريباً" (الجديد)
-   ========================================= */
-.coming-soon-box {
-    background: rgba(255, 255, 255, 0.03);
-    border: 2px dashed rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 30px 20px; /* خليته أصغر شوي عشان يناسب الرئيسية */
-    margin: 20px auto; /* توسيط */
-    text-align: center;
-    max-width: 80%; /* عشان ما ياخذ العرض كامل */
-    transition: 0.3s;
-}
-
-.coming-soon-box:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(99, 102, 241, 0.3);
-}
-
-.coming-icon {
-    font-size: 2.5rem; /* حجم الأيقونة */
-    display: block;
-    margin-bottom: 10px;
-    opacity: 0.7;
-    animation: float 3s ease-in-out infinite;
-}
-
-.coming-soon-box h3 {
-    color: #6366f1; /* لون بنفسجي فاتح */
-    margin: 5px 0;
-    font-size: 1.1rem;
-}
-
-.coming-soon-box p {
-    color: #94a3b8;
-    font-size: 0.85rem;
-    margin: 0;
-}
-
-/* أنيميشن الطفو البسيط */
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
-    100% { transform: translateY(0px); }
-}
 
 </style>
 
@@ -795,54 +750,23 @@ window.deleteChat = async () => {
   <p>دليل شامل يجمع ورش وصناعية جازان وقريبا المملكة</p>
 
 <div class="categories" id="categories">
-<div class="container">
-
-    <section class="section" id="cars">
-        <h2>ورش السيارات</h2>
-        <div class="cards" id="carsCards"></div>
-        
-        <div class="coming-soon-box">
-            <span class="coming-icon">🚗</span>
-            <h3>جاري إضافة المزيد</h3>
-            <p>نعمل حالياً على جمع أفضل ورش السيارات وإضافتها هنا.</p>
-        </div>
-    </section>
-
-    <section class="section" id="metal">
-        <h2>ورش الحدادة والألمنيوم</h2>
-        <div class="cards" id="metalCards"></div>
-
-        <div class="coming-soon-box">
-            <span class="coming-icon">🔨</span>
-            <h3>قريباً الافتتاح</h3>
-            <p>جاري تجهيز قائمة ورش الحدادة والألمنيوم.</p>
-        </div>
-    </section>
-
-    <section class="section" id="sofa">
-        <h2>ورش الكنب</h2>
-        <div class="cards" id="sofaCards"></div>
-
-        <div class="coming-soon-box">
-            <span class="coming-icon">🛋️</span>
-            <h3>قسم التنجيد والمفروشات</h3>
-            <p>قريباً ستجد هنا أفضل محلات تنجيد الكنب والستائر.</p>
-        </div>
-    </section>
-
-    <section class="section" id="aluminum">
-        <h2>ورش المكيفات و الغسالات</h2>
-        <div class="cards" id="aluminumCards"></div>
-
-        <div class="coming-soon-box">
-            <span class="coming-icon">❄️</span>
-            <h3>التبريد والتكييف</h3>
-            <p>جاري التحقق من أفضل فنيي التكييف لخدمتكم.</p>
-        </div>
-    </section>
-
+    <button onclick="goTo('cars')">
+        <span>🚗</span>
+        <span>السيارات</span>
+    </button>
+    <button onclick="goTo('metal')">
+        <span>🔨</span>
+        <span>الحدادة والألمنيوم</span>
+    </button>
+    <button onclick="goTo('sofa')">
+        <span>🛋️</span>
+        <span>الكنب</span>
+    </button>
+    <button onclick="goTo('aluminum')">
+        <span>❄️</span>
+        <span>المكيفات والغسالات</span>
+    </button>
 </div>
-
 
 <div class="search-box">
   <input id="searchInput" placeholder="🔍 ابحث عن اسم الورشة">
@@ -896,8 +820,6 @@ window.deleteChat = async () => {
 </script>
 </body>
 </html>
-
-
 
 
 
