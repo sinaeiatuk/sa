@@ -443,6 +443,64 @@ body {
 .coming-soon-box h3 { color: #6366f1; margin: 0 0 5px 0; font-size: 1rem; }
 .coming-soon-box p { color: #94a3b8; font-size: 0.8rem; margin: 0; }
 
+/* تنسيق قائمة المستخدم المنسدلة */
+.user-menu-dropdown {
+    position: absolute;
+    top: 70px; /* تحت الهيدر بشوي */
+    left: 20px; /* جهة اليسار عشان اللغة عربية */
+    width: 220px;
+    background: rgba(15, 23, 42, 0.95); /* لون داكن فخم */
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    display: none; /* مخفية في البداية */
+    flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    z-index: 9999;
+    overflow: hidden;
+    animation: fadeInMenu 0.3s ease;
+}
+
+@keyframes fadeInMenu {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-header-info {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+.menu-header-info h4 {
+    margin: 0; color: #fff; font-size: 1rem;
+}
+.menu-header-info span {
+    font-size: 0.8rem; color: #94a3b8;
+}
+
+.menu-item {
+    background: none; border: none;
+    width: 100%; padding: 12px 15px;
+    text-align: right; color: #e2e8f0;
+    cursor: pointer; font-family: 'Cairo', sans-serif;
+    display: flex; align-items: center; gap: 10px;
+    transition: 0.2s;
+    font-size: 0.95rem;
+}
+
+.menu-item:hover {
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+}
+
+.logout-btn {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: #ef4444 !important; /* لون أحمر للخروج */
+}
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.1) !important;
+}
 
 </style>
 
@@ -454,7 +512,7 @@ body {
 
 // 1. الاستيرادات (Imports) مجمعة بالكامل لتجنب الأخطاء
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import { getFirestore, collection, getDocs, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 
 
@@ -493,32 +551,47 @@ window.login = async () => {
   }
 };
 
-// 4. مراقبة حالة المستخدم (للدخول والشات)
+
+// 4. مراقبة حالة المستخدم (المحدثة للقائمة المنسدلة)
 onAuthStateChanged(auth, user => {
-  if(!user) return; // إذا لم يسجل دخول، لا تفعل شيئاً
-
-  // إخفاء زر الدخول وإظهار الصورة
   const loginBtn = document.querySelector(".login-btn");
-  if(loginBtn) loginBtn.style.display = "none";
-
   const avatar = document.getElementById("avatar");
-  if(avatar) {
-      avatar.src = user.photoURL;
-      avatar.style.display = "block";
-  }
+  
+  // عناصر القائمة المنسدلة
+  const menuName = document.getElementById("menuName");
+  const menuEmail = document.getElementById("menuEmail");
+  const adminBtn = document.getElementById("menuAdminBtn");
 
-  // زر الأدمين
-  if(ADMINS.includes(user.email)){
-    const adminBtn = document.getElementById("adminBtn");
-    if(adminBtn) adminBtn.style.display = "block";
-  }
+  if(!user) {
+      // --- حالة عدم تسجيل الدخول (زائر) ---
+      if(loginBtn) loginBtn.style.display = "block"; // أظهر زر الدخول
+      if(avatar) avatar.style.display = "none";      // أخفِ الصورة
+  } else {
+      // --- حالة تسجيل الدخول (عضو) ---
+      if(loginBtn) loginBtn.style.display = "none";  // أخفِ زر الدخول
+      
+      if(avatar) {
+          avatar.src = user.photoURL;
+          avatar.style.display = "block"; // أظهر الصورة
+      }
+      
+      // تعبئة بيانات القائمة بالاسم والإيميل الحقيقي
+      if(menuName) menuName.innerText = user.displayName;
+      if(menuEmail) menuEmail.innerText = user.email;
 
-  // تفعيل الشات إذا كان مفتوحاً
-  const chatWindow = document.getElementById('chatWindow');
-  if (chatWindow && chatWindow.style.display === 'flex') {
-      startChatListener(user.uid);
+      // إظهار زر "لوحة المطور" داخل القائمة فقط للأدمن
+      if(ADMINS.includes(user.email) && adminBtn){
+          adminBtn.style.display = "flex";
+      }
+      
+      // تشغيل الشات إذا كان مفتوحاً
+      const chatWindow = document.getElementById('chatWindow');
+      if (chatWindow && chatWindow.style.display === 'flex') {
+          startChatListener(user.uid);
+      }
   }
 });
+
 
 // 5. تحميل الورش (أساس الموقع)
 async function load() {
@@ -725,6 +798,34 @@ window.deleteChat = async () => {
         alert("حدث خطأ أثناء الحذف");
     }
 };
+// 1. دالة إظهار/إخفاء القائمة
+window.toggleUserMenu = () => {
+    const menu = document.getElementById('userMenu');
+    if (menu.style.display === 'flex') {
+        menu.style.display = 'none';
+    } else {
+        menu.style.display = 'flex';
+    }
+};
+
+// 2. دالة تسجيل الخروج
+window.logoutApp = async () => {
+    try {
+        await signOut(auth);
+        location.reload(); // تحديث الصفحة عشان يرجع زر الدخول
+    } catch (error) {
+        console.error("Error signing out:", error);
+    }
+};
+
+// 3. إغلاق القائمة لو ضغط المستخدم في أي مكان برا
+window.addEventListener('click', function(e) {
+    const menu = document.getElementById('userMenu');
+    const avatar = document.getElementById('avatar');
+    if (menu && avatar && !menu.contains(e.target) && !avatar.contains(e.target)) {
+        menu.style.display = 'none';
+    }
+});
 
 </script>
 
@@ -741,13 +842,27 @@ window.deleteChat = async () => {
     <div class="container">
         
 <header>
-  <div class="auth-box">
+<div class="auth-box">
     <button class="login-btn" onclick="login()">تسجيل الدخول</button>
-    <img id="avatar" class="user-avatar">
-    <button id="adminBtn" class="admin-btn" onclick="location.href='admin.html'">
-      لوحة المطور
-    </button>
-  </div>
+    
+    <img id="avatar" class="user-avatar" onclick="toggleUserMenu()" style="cursor: pointer;">
+    
+    <div id="userMenu" class="user-menu-dropdown">
+        <div class="menu-header-info">
+            <h4 id="menuName">زائر</h4>
+            <span id="menuEmail">...</span>
+        </div>
+        
+        <button class="menu-item" onclick="location.href='admin.html'" id="menuAdminBtn" style="display:none;">
+            ⚙️ لوحة المطور
+        </button>
+        <button class="menu-item logout-btn" onclick="logoutApp()">
+            🚪 تسجيل الخروج
+        </button>
+    </div>
+</div>
+
+    
 
   <div class="main-header">
     <img src="img/LOGO.png" alt="صناعيتك" class="top-logo">
@@ -871,6 +986,7 @@ window.deleteChat = async () => {
 </script>
 </body>
 </html>
+
 
 
 
