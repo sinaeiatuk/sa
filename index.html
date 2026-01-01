@@ -447,8 +447,8 @@ footer {
 // 1. الاستيرادات (Imports) مجمعة بالكامل لتجنب الأخطاء
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
-import { getFirestore, collection, getDocs, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 import { getFirestore, collection, getDocs, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
 
 
 
@@ -806,6 +806,7 @@ window.deleteChat = async () => {
 </script>
 </body>
 </html>
+
 
 
 
