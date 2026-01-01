@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأثاث الجديد والمستعمل | صناعيتك</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="img/LOGOAPP.png">
+
+    <style>
+        /* =========================================
+           تنسيقات مطابقة للموقع الرئيسي
+           ========================================= */
+        body {
+            /* نفس التدرج الخلفي بالضبط */
+            background: radial-gradient(circle at 50% 0%, #1e293b, #0b0f19);
+            color: #f8fafc;
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* الهيدر العلوي */
+        header {
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* زر العودة */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: #6366f1;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        /* عنوان الصفحة */
+        h1 {
+            margin: 20px 0;
+            font-size: 1.8rem;
+            background: linear-gradient(to bottom, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* صندوق "قريباً" */
+        .coming-soon-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 60px 20px;
+            margin-top: 30px;
+        }
+
+        .icon-large {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 15px;
+            opacity: 0.8;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        h2 { color: #6366f1; margin-bottom: 10px; }
+        p { color: #94a3b8; line-height: 1.6; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h3 style="margin:0; font-size:1.1rem;">صناعيتك</h3>
+        <a href="index.html" class="back-btn">
+            ➜ الرئيسيه
+        </a>
+    </header>
+
+    <div class="container">
+        <h1>قسم الأثاث الجديد والمستعمل</h1>
+
+        <div class="coming-soon-box">
+            <span class="icon-large">🪑</span>
+            <h2>قريباً الافتتاح</h2>
+            <p>جاري تجهيز هذا القسم ليضم أفضل عروض الأثاث<br>بيع وشراء بكل سهولة.</p>
+        </div>
+    </div>
+
+</body>
+</html>
