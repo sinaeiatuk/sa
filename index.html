@@ -771,13 +771,17 @@ window.deleteChat = async () => {
 <div class="search-box">
   <input id="searchInput" placeholder="🔍 ابحث عن اسم الورشة">
 </div>
-    <div class="categories" style="justify-content: center; margin-top: 20px;">
+    <div class="categories" style="justify-content: center; margin-top: 15px; background: none; border: none; padding: 0;">
     <button onclick="location.href='furniture.html'" 
-            style="width: 90%; max-width: 600px; height: auto !important; flex-direction: row !important; padding: 15px 25px !important; background: linear-gradient(90deg, #6366f1, #a855f7); border: none;">
-        <span style="font-size: 1.5rem;">🪑</span>
-        <span style="font-size: 1.1rem;">الأثاث الجديد والمستعمل</span>
+            style="width: auto; min-width: 200px; max-width: 90%; height: 50px !important; 
+                   flex-direction: row !important; padding: 0 25px !important; 
+                   background: linear-gradient(90deg, #6366f1, #a855f7); border: none; 
+                   gap: 10px; border-radius: 25px;">
+        <span style="font-size: 1.2rem;">🪑</span>
+        <span style="font-size: 1rem; font-weight: bold; color: white;">الأثاث الجديد والمستعمل</span>
     </button>
 </div>
+
 </header>
 
 <div class="container">
@@ -816,6 +820,7 @@ window.deleteChat = async () => {
 </script>
 </body>
 </html>
+
 
 
 
