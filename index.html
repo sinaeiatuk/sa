@@ -828,6 +828,14 @@ window.addEventListener('click', function(e) {
         menu.style.display = 'none';
     }
 });
+        // 4. إغلاق القائمة فوراً عند تحريك الشاشة (Scroll)
+window.addEventListener('scroll', () => {
+    const menu = document.getElementById('userMenu');
+    if (menu && menu.style.display === 'flex') {
+        menu.style.display = 'none';
+    }
+}, { passive: true }); // (passive) عشان ما يثقل على حركة الصفحة
+
 
 </script>
 
@@ -988,6 +996,7 @@ window.addEventListener('click', function(e) {
 </script>
 </body>
 </html>
+
 
 
 
